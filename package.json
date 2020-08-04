@@ -1,0 +1,26 @@
+{
+  "scripts": {
+    "scss": "node-sass public/asset/scss/global.scss public/asset/css/global.css --output-style=expanded --indent-type=tab --indent-width=1",
+    "autoprefixer": "postcss style.css -u autoprefixer -o style.css --no-map",
+    "stylelint": "stylelint 'style.css'",
+    "stylefix": "stylelint 'style.css' --fix",
+    "compileCompressed": "./style.css"
+  },
+  "devDependencies": {
+    "bootstrap": "^4.5.0",
+    "jquery": "^3.5.1",
+    "node-sass": "^4.14.1",
+    "popper.js": "^1.16.1",
+    "sass-loader": "^8.0.2"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "redis": "^3.0.2",
+    "socket.io": "^2.3.0",
+    "socket.io-redis": "^5.2.0",
+    "winston": "^3.2.1",
+    "xterm": "^4.6.0"
+  }
+}

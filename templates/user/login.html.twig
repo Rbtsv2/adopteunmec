@@ -1,0 +1,82 @@
+{% extends 'layout/base.html.twig' %}
+{#{% form_theme form 'bootstrap_4_horizontal_layout.html.twig' %}#}
+{% block body %}
+    <div class="container">
+        <div class="row mt-2 justify-content-md-center">
+            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-4">
+                <form class="md-float-material form-material" action="{{ path('login') }}" method="POST">
+                <div class="auth-box card">
+                    <div class="db-TestDataBanner">
+                    </div>
+                    <div class="card-header">
+                        <h3 class="text-center txt-primary">Sign in</h3>
+                    </div>
+                    <div class="card-block pt-0">
+                        {% for message in app.flashes('success') %}
+                            <div class="alert alert-success alert-dismissible fade show">
+                                {{ message | raw}}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endfor %}
+                        {% for message in app.flashes('error') %}
+                            <div class="alert alert-danger alert-dismissible fade show text-center">
+                                {{ message | raw}}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endfor %}
+                        {% if error %}
+                            <div class="alert alert-danger text-center">
+                                {{ error.messageKey | trans(error.messagedata, 'security') }}
+                            </div>
+                        {% endif %}
+                        <div class="form-group form-primary">
+                            <div class="input-group">
+                                <input type="text" id="username" name="_username" class="form-control login-input" placeholder="Email"
+                                       value="{{ last_username }}" required="">
+                                <div class="input-group">
+                                <input type="password" id="password" name="_password" class="form-control password-input" placeholder="Password"
+                                       required="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-t-25 mb-4 text-left">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="custom-control custom-checkbox mr-sm-2">
+                                            <input type="checkbox" name="_remember_me" class="custom-control-input" id="remember_me">
+                                            <label class="custom-control-label" for="remember_me">
+                                                <small>Remember me</small>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 text-right">
+                                        <small><a href="{{ path('user.forgot_password') }}">Forgot password?</a></small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-t-30 mb-4">
+                            <div class="col-md-12">
+                                <button type="submit"
+                                        class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20">
+                                    SIGN IN
+                                </button>
+                            </div>
+                        </div>
+                        <p class="text-inverse text-center">
+                            Doesn't have an account?<br>
+                            <a href="{{ path('register') }}"><b>register</b></a> now!
+                        </p>
+                    </div>
+                </div>
+               </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+    {{ include('header.html.twig') }}
+    <body style="padding-top: 110px!important;">
+        {{ include('navbar.html.twig') }}
+
+        {% block body %}{% endblock %}
+
+        {{ include('footer.html.twig') }}
+    </body>
+
+</html>

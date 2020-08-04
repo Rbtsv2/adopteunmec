@@ -1,0 +1,73 @@
+{% extends 'layout/base.html.twig' %}
+{#{% form_theme form 'bootstrap_4_horizontal_layout.html.twig' %}#}
+{% block body %}
+    <div class="container">
+        <div class="row mt-2 mb-5">
+            <div class="col-md-12 mt-4">
+                <div class="row">
+                    <div class="col-md-2">
+                        {{ include('user/sidebar.html.twig') }}
+                    </div>
+                    <div class="col-md-10">
+
+                        <div class="card">
+                            <div class="db-TestDataBanner">
+                                {% if app.user.subscription|length > 0 %}
+                                    {% if app.user.subscription[0].status == 'trialing' %}
+                                        <div class="db-TestDataBanner-content">
+                                            <span>TRIAL PERIOD</span>
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                            <div class="card-header">
+                                <h5>Account</h5>
+                            </div>
+                            <div class="card-block">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        {% set avatar = app.request.getBaseURL() ~ '/img/placeholders/profile.jpg' %}
+                                        {% if app.user.avatar %}
+                                            {% set avatar = app.request.getBaseURL() ~ '/images/avatars/' ~ app.user.avatar %}
+                                        {% endif %}
+                                        <a href="{{ avatar }}" data-toggle="lightbox"
+                                           class="card avatar-image-profile"
+                                           style="background-image: url({{ avatar }}); box-shadow: none;margin-bottom: 2.05rem!important;">
+                                        </a>
+                                        <label class="btn btn-outline-primary btn-block">
+                                            <span style="margin-left: 21px;">Upload</span><i
+                                                    class="feather icon-upload float-right"
+                                                    style="margin-top:3px;margin-right: 3px;"></i>
+                                            {#{{ form_widget(form.image_file) }}#}
+                                        </label>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile"
+                                                   role="tab" aria-controls="profile" aria-selected="true">Profile</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="password-tab" data-toggle="tab" href="#password"
+                                                   role="tab" aria-controls="home" aria-selected="true">Password</a>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content pt-3">
+                                            <div class="tab-pane active" id="profile" role="tabpanel"
+                                                 aria-labelledby="profile-tab">
+                                                {#{{ include('user/_form.html.twig', {'button_label': 'Update'}) }}#}
+                                            </div>
+                                            <div class="tab-pane" id="password" role="tabpanel" aria-labelledby="password-tab">
+                                                ...
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

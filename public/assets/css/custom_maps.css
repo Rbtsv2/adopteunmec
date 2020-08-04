@@ -1,0 +1,160 @@
+.ico_girl {
+    border-radius: 50px;
+    border : solid 2px pink;
+    transition: transform .2s;
+}
+
+.ico_man {
+    border-radius: 50px;
+    border : solid 2px rgb(111, 163, 187);
+    transition: transform .2s;
+}
+
+.ico_girl:hover {
+    border : solid 2px rgb(231, 208, 75);
+}
+
+.fixed {
+
+    position: fixed;
+    top:190px;
+    width: 274px;
+    height: auto;
+    margin-left: 5px;
+    background-color: pink;
+    z-index: 1000000;
+    text-align: center;
+    color: white;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; 
+   
+}
+
+
+.deco_img {
+
+    border:solid 2px rgb(255, 255, 255);
+    border-radius:2px;
+}
+
+
+
+.lien {
+    text-decoration:none;
+    color: black;
+    border: solid 1px grey;
+    padding:2px;
+    border-radius: 5px;
+}
+
+.lien:hover {
+    text-decoration:none;
+    color: black;
+    border: solid 1px grey;
+    padding:2px;
+    border-radius: 5px;
+}
+
+.leaflet-control-fullscreen a {
+    background:#fff url(/assets/img/fullscreen.png) no-repeat 0 0;
+    background-size:26px 52px;
+    }
+    .leaflet-touch .leaflet-control-fullscreen a {
+      background-position: 2px 2px;
+      }
+    .leaflet-fullscreen-on .leaflet-control-fullscreen a {
+      background-position:0 -26px;
+      }
+    .leaflet-touch.leaflet-fullscreen-on .leaflet-control-fullscreen a {
+      background-position: 2px -24px;
+      }
+  
+  /* Do not combine these two rules; IE will break. */
+  .leaflet-container:-webkit-full-screen {
+    width:100%!important;
+    height:100%!important;
+    }
+  .leaflet-container.leaflet-fullscreen-on {
+    width:100%!important;
+    height:100%!important;
+    }
+  
+  .leaflet-pseudo-fullscreen {
+    position:fixed!important;
+    width:100%!important;
+    height:100%!important;
+    top:0!important;
+    left:0!important;
+    z-index:99999;
+    }
+  
+  @media
+    (-webkit-min-device-pixel-ratio:2),
+    (min-resolution:192dpi) {
+      .leaflet-control-fullscreen a {
+        background-image:url(fullscreen@2x.png);
+      }
+    }
+
+
+ /* custom marker cluster    */
+
+ .marker-cluster-small {
+	background-color: rgba(181, 226, 140, 0.6);
+	}
+.marker-cluster-small div {
+	background-color: rgba(110, 204, 57, 0.6);
+	}
+
+.marker-cluster-medium {
+	background-color: rgba(241, 211, 87, 0.6);
+	}
+.marker-cluster-medium div {
+	background-color: rgba(240, 194, 12, 0.6);
+	}
+
+.marker-cluster-large {
+	background-color: rgba(253, 156, 115, 0.6);
+	}
+.marker-cluster-large div {
+	background-color: rgba(241, 128, 23, 0.6);
+	}
+
+	/* IE 6-8 fallback colors */
+.leaflet-oldie .marker-cluster-small {
+	background-color: rgb(181, 226, 140);
+	}
+.leaflet-oldie .marker-cluster-small div {
+	background-color: rgb(110, 204, 57);
+	}
+
+.leaflet-oldie .marker-cluster-medium {
+	background-color: rgb(241, 211, 87);
+	}
+.leaflet-oldie .marker-cluster-medium div {
+	background-color: rgb(240, 194, 12);
+	}
+
+.leaflet-oldie .marker-cluster-large {
+	background-color: rgb(253, 156, 115);
+	}
+.leaflet-oldie .marker-cluster-large div {
+	background-color: rgb(241, 128, 23);
+}
+
+.marker-cluster {
+	background-clip: padding-box;
+	border-radius: 20px;
+	}
+.marker-cluster div {
+	width: 30px;
+	height: 30px;
+	margin-left: 5px;
+	margin-top: 5px;
+
+	text-align: center;
+	border-radius: 15px;
+	font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
+	}
+.marker-cluster span {
+	line-height: 30px;
+	}

@@ -1,0 +1,73 @@
+<nav class="navbar navbar-expand-md navbar-dark fixed-top" style="background-color:white; border-bottom:2px solid #cecbcb">
+    <div class="container">
+
+        <a class="navbar-brand" href="{{ path('home') }}">
+            <img style="width:230px"src="{{ asset('assets/img/logo.png') }}" alt="logo">
+ 
+        </a>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+         
+            <ul class="navbar-nav ml-auto">
+                {% if app.user %}
+                    {% set email = app.user.email | split('@') %}
+                <li style="padding:10px"class="nav-item">
+                     <a class="list-group-item" href="">
+                                <i class="feather icon-log-out"></i> Se déconnecter
+                    </a>
+                </li>
+                    {# <div class="dropdown">
+                        <a href="#" class="text-white radial_progress dropdown-toggle dropdown-user-menu" style="width:40px;height: 40px;position:absolute;"  data-toggle="dropdown">
+                            {% set percent = 0 %}
+                            {% if app.user.subscription|length > 0 %}
+                                {% if app.user.subscription[0].status == 'active' %}
+                                    {% set percent = (app.user.credits / app.user.subscription[0].offer.credits) * 100 %}
+                                {% elseif app.user.subscription[0].status == 'trialing'%}
+                                    {% set percent = (app.user.credits / 20) * 100 %}
+                                {% else %}
+                                    {% set percent = (app.user.credits / app.user.credits) * 100 %}
+                                {% endif %}
+                            {% else %}
+                                {% set percent = (app.user.credits / app.user.credits) * 100 %}
+                            {% endif %}
+                            <progress-ring progress="{{ percent }}" radius="20" stroke="2" background="#282d33">
+                            </progress-ring>
+                            <i class="feather icon-user" style="position:absolute; left: 12px;top: 12px; "></i>
+                        </a>
+                       
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item">{{ email[0] }} <span id="user_credits"> (<b>{{ app.user.credits|number_format(0, ',', ' ') }} credit{% if app.user.credits > 1 %}s{% endif %}</b>)</span></a>
+                            <div class="dropdown-divider"></div>
+                             {% if is_granted('ROLE_ADMIN') %}
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{ path('admin.dashboard') }}">
+                                    <i class="feather icon-command"></i> Administration
+                                </a>
+                             {% endif %}
+                           
+                        </div>
+                   
+                    </div> #}
+             
+
+                {% else %}
+                    <li style="padding:10px"class="nav-item">
+                        <a style="color:black" class="nav-link" href="{{ path('maps') }}">MAPS</a>
+                    </li>
+                    <li style="padding:10px" class="nav-item">
+                        <a style="color:black" class="nav-link" href="{{ path('search') }}">SEARCH</a>
+                    </li>
+                    <li style="padding:10px" class="nav-item">
+                        <a style="color:black" class="nav-link" href="{{ path('stats') }}">STATS</a>
+                    </li>
+                    <li style="padding:10px" class="nav-item">
+                        <a style="color:black" class="nav-link" href="{{ path('user.worker') }}">PLAY</a>
+                    </li>
+                    <li style="padding:10px" class="nav-item">
+                        <a style="border: dashed 2px grey;padding:5px; color:grey; border-radius: 5px"class="nav-link" href="{{ path('login') }}">SE&nbsp;CONNECTER</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+
+</nav>

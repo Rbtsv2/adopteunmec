@@ -1,0 +1,78 @@
+{% extends 'layout/base.html.twig' %}
+{#{% form_theme form 'bootstrap_4_horizontal_layout.html.twig' %}#}
+{% block body %}
+    <div class="container">
+        <div class="row mt-2 justify-content-md-center">
+            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-4">
+
+                {{ form_start(form) }}
+
+                    <div class="auth-box card">
+                        <div class="db-TestDataBanner"></div>
+                        <div class="card-header">
+                            <h3 class="text-center txt-primary">Sign up</h3>
+                        </div>
+                        <div class="card-block pt-0">
+                            {% for message in app.flashes('success') %}
+                                <div class="alert alert-success alert-dismissible fade show">
+                                    {{ message | raw}}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            {% endfor %}
+
+                            {% for message in app.flashes('error') %}
+                                <div class="alert alert-danger alert-dismissible fade show">
+                                    {{ message | raw}}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            {% endfor %}
+
+                            <div class="form-group">
+                                <input type="email" placeholder="Email" id="user_email" name="user[email]" required="required" maxlength="255" class="form-control login-input">
+                                <input type="password" placeholder="Password" id="user_password_first" name="user[password][first]" class="password-field form-control register-password-input">
+                                <input type="password" placeholder="Repeat password" id="user_password_second" name="user[password][second]" class="password-field form-control password-repeat-input">
+                            </div>
+
+                            <div class="row m-t-25 mb-4 text-left">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="custom-control custom-checkbox mr-sm-2">
+                                                <input type="checkbox" name="_tos" class="custom-control-input" id="tos">
+                                                <label class="custom-control-label" for="tos">
+                                                    <small>I accept the <a href="{{ path('page.show', {slug: 'terms-of-service'}) }}">Terms of service.</a></small>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row m-t-30 mb-4">
+                                <div class="col-md-12">
+                                    <button type="submit"
+                                            class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20">
+                                        SIGN UP
+                                    </button>
+                                </div>
+                            </div>
+                            <p class="text-inverse text-center">
+                                Already have an account?<br>
+                                <a href="{{ path('login') }}"><b>login</b></a> now!</p>
+                        </div>
+                    </div>
+                {% do form.email.setRendered() %}
+                {% do form.password.setRendered() %}
+                {% do form.firstname.setRendered() %}
+                {% do form.lastname.setRendered() %}
+                {% do form.image_file.setRendered() %}
+                {% do form.credits.setRendered() %}
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

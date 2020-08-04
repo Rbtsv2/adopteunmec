@@ -1,0 +1,93 @@
+{% extends 'layout/base.html.twig' %}
+{#{% form_theme form 'bootstrap_4_horizontal_layout.html.twig' %}#}
+{% block body %}
+    <div class="container">
+        <div class="row mt-2 mb-5">
+            <div class="col-md-12 mt-4">
+                <div class="row">
+                    <div class="col-md-3">
+                        {{ include('user/sidebar.html.twig') }}
+                    </div>
+                    <div class="col-md-9">
+                        <div class="card">
+                            <div class="db-TestDataBanner">
+                                {% if app.user.subscription|length > 0 %}
+                                    {% if app.user.subscription[0].status == 'trialing' %}
+                                        <div class="db-TestDataBanner-content">
+                                            <span>TRIAL PERIOD</span>
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+
+                            <div class="card-header">
+                                <h5>Billing</h5>
+                            </div>
+                            <div class="card-block pt-3">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th>Offer</th>
+                                            <th>Start</th>
+                                            <th>End</th>
+                                            <th class="text-center">Status</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for sub in app.user.subscription %}
+                                            <tr onclick="window.location.href = '{{ path('user.billing.show', {id: sub.id}) }}';"
+                                                class="clickable">
+                                                <td>
+                                                    <img src="{{ asset('img/' ~ sub.offer.filename) }}" width="24px"
+                                                         class="mr-2 ml-2">
+                                                    <span class="text-blue">{{ sub.offer.name }}</span> -
+                                                    <b>{{ sub.offer.credits }}</b> credits
+                                                </td>
+                                                <td>
+                                                    <small class="text-muted"><i>{{ sub.start | date }}</i></small>
+                                                </td>
+                                                <td>
+                                                    <small class="text-muted"><i>{{ sub.end | date }}</i></small>
+                                                </td>
+                                                <td class="text-center">
+                                                    {% if sub.status == "active" %}
+                                                        {% set badge_class = "success" %}
+                                                    {% elseif sub.status == "trialing" %}
+                                                        {% set badge_class = "info" %}
+                                                    {% elseif sub.status == "incomplete" %}
+                                                        {% set badge_class = "warning" %}
+                                                    {% elseif sub.status == "incomplete_expired" %}
+                                                        {% set badge_class = "warning" %}
+                                                    {% elseif sub.status == "past_due" %}
+                                                        {% set badge_class = "warning" %}
+                                                    {% elseif sub.status == "canceled" %}
+                                                        {% set badge_class = "secondary" %}
+                                                    {% elseif sub.status == "unpaid" %}
+                                                        {% set badge_class = "danger" %}
+                                                    {% else %}
+                                                        {% set badge_class = "default" %}
+                                                    {% endif %}
+                                                    <small class="badge badge-{{ badge_class }}">{{ sub.status | upper }}</small>
+                                                </td>
+                                            </tr>
+                                        {% else %}
+                                            <tr>
+                                                <td colspan="4" class="text-center pt-5 pb-5">
+                                                    <span>You have no subscription !</span><br><a
+                                                            href="{{ path('offers') }}">Choose an offer</a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

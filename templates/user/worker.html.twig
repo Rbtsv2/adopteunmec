@@ -1,0 +1,42 @@
+{% extends 'layout/base.html.twig' %}
+{% block body %}
+    <div class="container-fluid">
+        <div class="row mt-2 mb-5">
+            <div class="col-md-12 mt-4">
+                <div class="row">
+                    <div class="col-md-3">
+                       {{ include('user/sidebar.html.twig') }}
+                    </div>
+                    <div class="col-md-9">
+
+
+                        <div type="" class="btn btn-primary">
+                        Visited <span class="badge badge-light">4</span>
+                        </div>
+                        <div>
+
+
+                        <label class="switch">
+                        <input id="player" type="checkbox">
+                        <span class="slider round"></span>
+                        </label>
+
+
+
+                        <div class="card">
+                               <div style="background:black; width:825px; height:400px;"id="terminal">
+                                  <div style="color:white; margin-left:2px"> rbtsv2@rbtsv2:~$</div> 
+
+                                  <div id="log"></div>
+               
+                                  {# <form><input id="m" autocomplete="off" /><button id="send">Send</button></form> #}
+
+                              </div>                        
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

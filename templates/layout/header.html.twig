@@ -1,0 +1,36 @@
+<head>
+    <title>{% block title %}Social Engine | Web tools{% endblock %}</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="Social Engine">
+    <meta name="description" content="web tools">
+    <meta name="author" content="RbtsV2">
+
+    <link rel="shortcut icon" href="{{ asset('img/logo.png') }}" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="{{ asset('img/logo.png') }}">
+
+    {% block stylesheets %}
+     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-4.css') }}">
+     <link rel="stylesheet" href="{{ asset('assets/css/dashboard.css') }}">
+
+     <link rel="stylesheet" href="{{ asset('assets/css/geoapis.css') }}">
+     <link rel="stylesheet" href="{{ asset('assets/css/custom_maps.css') }}">
+
+     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css"/>
+     <link rel="stylesheet" href="https://leaflet.github.io/Leaflet.markercluster/dist/MarkerCluster.css"/>
+
+     <link rel="stylesheet" href="{{ asset('assets/css/dataTables.min.css') }}">
+     <link rel="stylesheet" href="{{ asset('assets/css/apexcharts.css') }}">
+     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+   
+
+    {% endblock %}
+        
+    {% if is_granted('ROLE_ADMIN') %}
+        {# <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/css/select2.min.css">
+        <link rel="stylesheet" href="{{ asset('css/admin.css') }}" /> #}
+    {% else %}
+    {% endif %}
+</head>
