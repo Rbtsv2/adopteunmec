@@ -8,6 +8,7 @@
 /var/
 /vendor/
 /adopte.sql
+/.env
 ###< symfony/framework-bundle ###
 
 ###> symfony/web-server-bundle ###
