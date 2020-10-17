@@ -57,12 +57,13 @@ class ParsingIdRepository extends ServiceEntityRepository
                 RIGHT JOIN parsing_id as p
                  ON i.relation_id = p.id
                  WHERE p.urlid = :id
+                 ORDER BY i.created_at DESC
                ";
 
         $users =$this->conn->prepare($sql);
         $users->execute(array(":id" => $id));
 
-        $arrayUser = $users->fetch();
+        $arrayUser = $users->fetchAll();
         return $arrayUser;
 
     }

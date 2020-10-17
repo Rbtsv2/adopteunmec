@@ -50,12 +50,12 @@ class AdopteService
 
 
     public function getProfilsWhitoutInformations($login, $password, $output) {
-
-
+    
         $output->writeln(self::LOGO, OutputInterface::VERBOSITY_NORMAL);
         $output->writeln('<notice>[' . date('Y-m-d H:i:s') . '] [INFO]</> Start payload Save', OutputInterface::VERBOSITY_NORMAL);
 
         $result = $this->em->getRepository('App:ParsingId')->findAllIdsWithoutInformations();
+
 
         $tab = [];
         foreach ($result as $key) {
@@ -67,14 +67,12 @@ class AdopteService
     }
 
 
-    public function getStart($login, $password, $code, $search, $output, $isonline, $iswoman) 
+    public function getStart($login, $password, $code, $search, $output, $isonline) 
     {
-        $this->iswoman = $iswoman;
-        $sexe = ($this->iswoman) ? "femmes" : "hommes";
 
         $output->writeln(self::LOGO, OutputInterface::VERBOSITY_NORMAL);
         $output->writeln('<notice>[' . date('Y-m-d H:i:s') . '] [INFO]</> Start payload ', OutputInterface::VERBOSITY_NORMAL);
-        $output->writeln('<notice>[' . date('Y-m-d H:i:s') . '] [DEBUG] Recherche des '.$sexe.' dans la zone : '. $code . '</> ', OutputInterface::VERBOSITY_NORMAL);
+       
 
         if (!empty($search)) {
             $output->writeln('<notice>[' . date('Y-m-d H:i:s') . '] [DEBUG] critère(s) specifié(s) : '. $search . '</> ', OutputInterface::VERBOSITY_NORMAL);
@@ -162,27 +160,26 @@ class AdopteService
 
             $output->writeln('<third>[' . date('Y-m-d H:i:s') . '] [DEBUG] Profile visité ' . $url . '</>', OutputInterface::VERBOSITY_DEBUG);
 
+
             $data = $this->getAdopteApi($content, $output, $save);
 
             if (!empty($data)) {
                $this->saveIdsFromOneProfile($data, $output); 
+               $this->getSecureTime($output);
             } else {
 
-                // détection fraude 
+                // détection kick fraude  
                 $this->kickDetection($content, $output);
 
                 $urlTab = parse_url($url);
                 $path   = $urlTab['path'];
                 $id     = str_replace("/profile/","",$path);
-                $user = $this->em->getRepository('App:ParsingId')->findOneBy(array('urlid' =>$id));
+                $user   = $this->em->getRepository('App:ParsingId')->findOneBy(array('urlid' =>$id));
                 $user->setIsActive(0);
                 $this->em->flush();
-                $output->writeln('<action>[NOTICE] Profile inactif traité : ' . $id . '</>', OutputInterface::VERBOSITY_NORMAL);
-
+                $output->writeln('<action>[NOTICE] Profile is close : ' . $id . '</>', OutputInterface::VERBOSITY_NORMAL);
             }
-
-            $this->getSecureTime($output);
-                      
+                
             
         }
         $progress->finish();
@@ -197,7 +194,7 @@ class AdopteService
         }
     }
 
-    public function getSecureTime($output, $microTimeMin = 40000000, $microTimeMax = 58000000)
+    public function getSecureTime($output, $microTimeMin = 20000000, $microTimeMax = 30000000)
     {
         $microTime = rand($microTimeMin, $microTimeMax);
 
@@ -225,11 +222,8 @@ class AdopteService
                 $saveId->setCity( $key['city'] );
                 $saveId->setPseudo( $key['pseudo'] );
                 $saveId->setAge( $key['age'] );
-
-                $saveId->setSexe($this->iswoman);  
+                $saveId->setSexe(NULL);  
            
-              
-              
                 $this->em->persist($saveId);
                 $this->em->flush();     
             }
@@ -237,10 +231,12 @@ class AdopteService
     }
 
 
-    public function saveInformations($user, $data, $output) 
+    public function saveInformations($user, $data, $output = false) 
     {
-        $output->writeln('<notice>[' . date('Y-m-d H:i:s') . '] [ACTION] save credentials : </notice> <vip>' .  $data['member']['pseudo'] . '</vip></>', OutputInterface::VERBOSITY_NORMAL);
-
+        if ($output != false) {
+            $output->writeln('<notice>[' . date('Y-m-d H:i:s') . '] [ACTION] save credentials : </notice> <vip>' .  $data['member']['pseudo'] . '</vip></>', OutputInterface::VERBOSITY_NORMAL);
+        }
+       
         if ($data['member']['id'] != null) { 
 
             $informations = new Informations();
@@ -249,6 +245,9 @@ class AdopteService
             $informations->setCreatedAt(new \DateTime('now'));
             $user->addInformation($informations);
             $user->setIsInfo(1);
+    
+            $sexe = $this->isWomanOrMan($data, $output);
+            $user->setSexe($sexe);
             $this->em->persist($user);
             $this->em->flush();     
         }    
@@ -269,8 +268,9 @@ class AdopteService
             $saveId->setLat($data['sideColumn']['map']['coords']['memberLat']);
             $saveId->setLng($data['sideColumn']['map']['coords']['memberLng']);
 
-            $saveId->setSexe($this->iswoman);
-            
+            // fonction qui determine si Homme ou Femme
+            $sexe = $this->isWomanOrMan($data, $output);
+            $saveId->setSexe($sexe);
             
             $informations = new Informations();
 
@@ -284,29 +284,94 @@ class AdopteService
         }    
 
     }
+
     public function saveProfil($data, $output, $save) 
     {
 
         $user = $this->em->getRepository('App:ParsingId')->findOneBy(array('urlid' => $data['member']['id']));
 
-        if ($save) {
+        if ($save) { // si true alors on ne fait que recuperer les infos du profil
+            
             $this->saveInformations($user, $data, $output);
         } 
         else {
             if (!$user) {
-                $this->newSave($data, $output);  
+                $this->newSave($data, $output); 
+                // time secure ici 
+            } else {
+                $output->writeln('<notice>[' . date('Y-m-d H:i:s') . '] [NOTICE] This profil always existe (maybe need Maj) : </notice>', OutputInterface::VERBOSITY_NORMAL);
             }
         }
     }
 
+    public function isSimilar($oldData, $newData)
+    {
+        similar_text($oldData, $newData, $percent);
+        return ($percent != 100)? TRUE : FALSE;
+      
+    }
+
+   
+    /**
+     * return true 'mise à jour du profile'
+     * return false 'aucune mise à jour necessaire'
+     * return une execption le profil n'existe plus
+     */
+    public function exctractAndCompareApi($id)
+    {
+        $url = self::PROFILE . $id;
+        $content = $this->curl("jeuleberne45@gmail.com", "ezUZAedh54e574", $url);
+        $data = $this->extractApi($content); // on format serializé ? 
+        if (!$data) {
+            var_dump('the profile has deleted their account');
+            die;
+        }
+        ////// DONNE EN BASE ///////////
+        $results = $this->em->getRepository('App:ParsingId')->getId($id);
+        $oldDonne = unserialize($results[0]["data"]);
+   
+
+        $pseudo_compare      = $this->isSimilar($data['member']['pseudo'], $oldDonne['member']['pseudo']);
+        $age_compare         = $this->isSimilar($data['member']['age'], $oldDonne['member']['age']);
+        $description_compare = $this->isSimilar($data["mainColumn"]["Description"]["data"][0]["value"], $oldDonne["mainColumn"]["Description"]["data"][0]["value"]);
+        $recherche_compare   = $this->isSimilar($data["mainColumn"]["Shopping List"]["data"][0]["value"], $oldDonne["mainColumn"]["Shopping List"]["data"][0]["value"]);
+        
+        $lat_compare         = $this->isSimilar($data["sideColumn"]["map"]["coords"]["memberLat"], $oldDonne["sideColumn"]["map"]["coords"]["memberLat"]);
+        $lng_compare         = $this->isSimilar($data["sideColumn"]["map"]["coords"]["memberLng"], $oldDonne["sideColumn"]["map"]["coords"]["memberLng"]);
+
+
+        $results = [$pseudo_compare,$age_compare, $description_compare, $recherche_compare,$lat_compare, $lng_compare];
+
+        foreach ($results as $result) {
+            if ($result) {
+
+                $user = $this->em->getRepository('App:ParsingId')->findOneBy(array('urlid' => $data['member']['id']));
+                // on enregistre les nouvelles données
+                $this->saveInformations($user, $data);
+                //mettre à jour les infos de parsing_id (à faire)
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+
+    public function extractApi($content)
+    {
+        $re = '/\{"isOpenProfile":(.*)\}/m';
+        @preg_match_all($re, $content, $matches, PREG_SET_ORDER, 0);
+        $data_json = @$matches[0][0];
+        $data = json_decode($data_json, true); 
+        return $data; 
+    }
 
     public function getAdopteApi($content, $output, $save)
     {
 
-        $re = '/\{"isOpenProfile":(.*)\}/m';
-        @preg_match_all($re, $content, $matches, PREG_SET_ORDER, 0);
-        $data_json = @$matches[0][0];
-        $data = json_decode($data_json, true);
+        $data = $this->extractApi($content);
 
         // gère le : OUPS Cette utilisatrice n'existe plus (peut-être à supprimer de la base ?)
         if (empty($data)) {
@@ -321,56 +386,30 @@ class AdopteService
         $isconnect =  $data['member']['online'];
    
         $output->writeln('<notice> [NOTICE]</> pseudo : <vip>' . $pseudo . '</> | âge : ' . $age . ' | ville : ' . $ville . ' | Online : ' . $isconnect );
-
-   
-        /*Save profil */
         $this->saveProfil($data, $output, $save);
-
         return $data;
     
-        // "isOpenProfile":false,
-        // "member":{
-        //     "id":"114443917",
-        //     "pseudo":"Sandybus",
-        //     "title":"",
-        //     "age":36,
-        //     "city":"Tournefeuille",
-        //     "cover":"https:\/\/s7.adopteunmec.com\/fr\/06d2468d2094889b158.jpg",
-        //     "online":true,
-        //     "dead":false,
-        //     "isBlocked":false,
-        //     "inContact":false,
-        //     "canMail":false,
-        //     "isFaked":false,
-        //     "inBasket":false,
-        //     "pictures":[]
-        // },
-        // "headingBlock":{},
-        // "buttons":{},
-        // "sideColumn":{
-        //     "scores":[],
-        //     "instagram":{},
-        //     "rivals":[],
-        //     "oldContacts":[],
-        //     "keepContact":{},
-        //     "membersByHashtags":[],
-        //     "localProducts":{
-        //         "members":[]
-        //     },
-        //     "randomMembers":{
-        //         "label":"Suggestions",
-        //         "members":[]
-        //     },
-        //     "map":{}
-        // },
-        // "mainColumn":{},
-        // "status":{},
-        // "photoGallery":{},
-        // "instaGallery":{}
-
     }
 
-    function getProxy() {
+    function isWomanOrMan($data, $output = false) 
+    {
+        if ( isset($data['mainColumn']['Boudoir']) ){
+
+            if ($output != false) {
+                $output->writeln('<notice>[NOTICE]</> sexe : femme');
+            }
+            return 1;
+        } else {
+
+            if ($output != false) {
+                $output->writeln('<notice>[NOTICE]</> sexe : Homme');
+            }
+            return 0;
+        }   
+    }
+
+    function getProxy() 
+    {
 
         $data = @file_get_contents(self::PROXY);
         $contents = json_decode($data, true);
@@ -382,7 +421,7 @@ class AdopteService
     /**
      * @return bool|string
      */
-    function  curl($login, $password, $url, $output){
+    function  curl($login, $password, $url, $output = false){
 
         $isproxy = true;
 
@@ -429,17 +468,20 @@ class AdopteService
         if(!curl_errno($curl)){
             $info = curl_getinfo($curl);
 
-        //var_dump($info);
+            //var_dump($info);
+            if ($output != false) {
+                $output->writeln('<third>[' . date('Y-m-d H:i:s') . '] [DEBUG] La requête envoyé a mis ' . $info['total_time'] . 'secondes à être envoyée à ' . $info['url'] . ' </>', OutputInterface::VERBOSITY_DEBUG);
 
-            $output->writeln('<third>[' . date('Y-m-d H:i:s') . '] [DEBUG] La requête envoyé a mis ' . $info['total_time'] . 'secondes à être envoyée à ' . $info['url'] . ' </>', OutputInterface::VERBOSITY_DEBUG);
-
-            switch ($http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE)) {
-                case 200:  
-                    $output->writeln('<third>[' . date('Y-m-d H:i:s') . '] [DEBUG]  CODE 200 </>', OutputInterface::VERBOSITY_DEBUG);
-                    break;
-                default:
-                    $output->writeln('<error>[' . date('Y-m-d H:i:s') . '] [ERROR]  ' . $http_code . '</>', OutputInterface::VERBOSITY_DEBUG);
+                switch ($http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE)) {
+                    case 200:  
+                        $output->writeln('<third>[' . date('Y-m-d H:i:s') . '] [DEBUG]  CODE 200 </>', OutputInterface::VERBOSITY_DEBUG);
+                        break;
+                    default:
+                        $output->writeln('<error>[' . date('Y-m-d H:i:s') . '] [ERROR]  ' . $http_code . '</>', OutputInterface::VERBOSITY_DEBUG);
+                }
             }
+        
+        
         } 
         return $content;
     }

@@ -35,7 +35,6 @@ class ParseAdpCommand extends Command
         ->addArgument('login', InputArgument::REQUIRED , 'User login')
         ->addArgument('password', InputArgument::REQUIRED, 'User password')
         ->addArgument('code', InputArgument::REQUIRED, 'Code postal (ex: 31)')
-        ->addArgument('sexe', InputArgument::REQUIRED, 'je cherche des femmes ou des hommes')
         ->addArgument('recherche', InputArgument::OPTIONAL, 'recherches speciales (exemple: yeux verts)')
         ->addArgument('online', InputArgument::OPTIONAL, 'online (force la visite sur les profils connectés');
     }
@@ -46,7 +45,6 @@ class ParseAdpCommand extends Command
         $password = $input->getArgument('password');
         $login = $input->getArgument('login');
         $code = $input->getArgument('code');
-        $iswoman = ( ($input->getArgument('sexe')) == "femmes" ) ? true : false;
         $search = $input->getArgument('recherche');
         $isonline = ( ($input->getArgument('online')) == "online" ) ?: 0;
 
@@ -61,7 +59,7 @@ class ParseAdpCommand extends Command
         $output->getFormatter()->setStyle('third', $thirdVerboseLog);
         $output->getFormatter()->setStyle('vip', $vip);
    
-        $this->adopte->getStart($login, $password, $code, $search, $output, $isonline, $iswoman);
+        $this->adopte->getStart($login, $password, $code, $search, $output, $isonline);
 
 		return 1;
     }

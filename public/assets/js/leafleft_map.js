@@ -21,7 +21,7 @@ class LeafleftMap {
          
             this.addLayersControls(layers); // On ajoute les layers au controle pour la vue 
 
-            this.addCirclePosition(position); // On ajoute la zone en focntion de la position
+            this.addCirclePosition(position); // On ajoute la zone en fonction de la position
 
             this.getApiAdresses(layers); // search par adresse et recharge la carte en suivant en recuperant les marqueurs
             this.onMapMove(markers, layers); // L'utilisateur deplace la carte et rafraichi les marqueurs au deplacements

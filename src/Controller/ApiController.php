@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\ParsinId;
-
+use App\Service\AdopteService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,9 +17,10 @@ class ApiController extends AbstractController
 {
 
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, AdopteService $adopteService)
     {
         $this->em = $em;
+        $this->adopteService = $adopteService;
     }
 
     /**
@@ -31,6 +32,19 @@ class ApiController extends AbstractController
          $result = $this->em->getRepository('App:ParsingId')->getScreenLocateIds($lat,$lon); ///api/users/43.60436/1.44295 [toulouse]
          return new JsonResponse($result);
         
+    }
+
+
+    /**
+     * @Route("/similar/{id}", name="similar")
+     */
+    public function similar(Request $request, $id)
+    {  
+ 
+        $result = $this->adopteService->exctractAndCompareApi($id);
+        var_dump($result);
+        die;
+       
     }
 
 

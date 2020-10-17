@@ -34,7 +34,7 @@ class SaveCommand extends Command
             ')
         ->addArgument('login', InputArgument::REQUIRED , 'User login')
         ->addArgument('password', InputArgument::REQUIRED, 'User password');
-
+    
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -42,7 +42,7 @@ class SaveCommand extends Command
 
         $password = $input->getArgument('password');
         $login = $input->getArgument('login');
-
+ 
 
         $noticeLog = new OutputFormatterStyle('green');
         $actionLog = new OutputFormatterStyle('magenta');

@@ -61,19 +61,36 @@ class StatsController extends AbstractController
      */
     public function product($id)
     {
+       
+        $results = $this->em->getRepository('App:ParsingId')->getId($id);
 
-        $result = $this->em->getRepository('App:ParsingId')->getId($id);
 
         // deserialize DC2Type to array
-        $result = unserialize($result["data"]);
-
+        foreach ($results as $result) {
+                   
+            $tabResult[] = [
+                'data' => unserialize($result["data"]),
+                'created_at' => $result['created_at']   
+            ];
+        }
+   
+        // var_dump($tabResult);
+        // die;
+        if ($results) {
+            return $this->render('user.html.twig', ['user' => $tabResult]);
+        } else {
+            var_dump('no data, its possible this profile are closed or wait');
+            die;
+        }
         //print_r($result);
         //die;
         // Convert array -> to string -> to object
         //$result =  (json_decode(json_encode($result)));
 
-        return $this->render('user.html.twig', ['user' => $result]);
+        
     }
+
+    
 
     /**
      *  @Route("/proxy", name="proxy")
