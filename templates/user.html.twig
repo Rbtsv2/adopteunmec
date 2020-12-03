@@ -17,13 +17,8 @@
 
 <body>
 <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
-    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">ADOPTE REAL STATS</a>
-    <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
-    <ul class="navbar-nav px-3">
-        {#  <li class="nav-item text-nowrap">
-           <a class="nav-link" href="#">Sign out</a>
-         </li> #}
-    </ul>
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">ADOPTEUNMEC.COM</a>
+    
 </nav>  
 
 <div class="container-fluid">
@@ -41,7 +36,7 @@
                 {% for userByDate in user %}
 
                 <li class="nav-item">
-                        <a class="nav-link active" href="">
+                        <a class="nav-link active" href='/product/{{ user[0]["data"].member.id }}/{{ userByDate["id_save"] }}' target="_blanc">
                             <span data-feather="home"></span>
                             {{ userByDate['created_at'] }} 
                         </a>
@@ -81,7 +76,7 @@
                 </div>
                 <div class="col-5">
                     <div id="geoloc" ></div>
-                    <div id="map" style="height: 250px; "></div>
+                    <div id="map" style="height: 550px; "></div>
                 </div>
             </div>
 
@@ -250,20 +245,34 @@
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 {% block javascripts %}
-    <script src="{{ asset('assets/js/bootstrap-4.js') }}"></script>
+
     <script src="{{ asset('assets/js/popper.min.js') }}"></script>
-    <script src="{{ asset('assets/js/jquery-3.2.1.slim.min.js') }}"></script>
-    <script src="{{ asset('assets/js/geoapis.js') }}"></script>
-    <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBK_7aiZII6gELxc-dOX7syujK5cXnrAqU&callback=initMap">
-    </script>
+   
+  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 
+    <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"></script>
+    <script src='{{ asset('assets/js/leaflet_fullscreen.js') }}'></script>
 
+    <script src="{{ asset('assets/js/leaflet_geometryutil.js') }}"></script>
+    <script src="{{ asset('assets/js/leaflet_arrowheads.js') }}"></script>
 
+    <script src='{{ asset('assets/js/leafleft_individual_map.js') }}'></script>
+   
 
     <script>
+        window.onload = function() {
+            let leafletmap = new LeafleftMap({
+                id: '{{ user[0]["data"].member.id }}',
+                zoom: 5
+            });
+        };
+    </script>
 
-        // On stock les coordonnes à terme =>   foreach sur user tab 
+        // je suis en train de tout refaire dans la classe leaflet_individual pour afficher les marqueurs.
+
+        {# // On stock les coordonnes à terme =>   foreach sur user tab 
         var lat = {{ user[0]["data"].sideColumn.map.coords.memberLat }};
         var lon = {{ user[0]["data"].sideColumn.map.coords.memberLng }};
 
@@ -334,7 +343,7 @@
 
         window.onload = function(){
             initMap();
-        };
+        }; #}
 
     </script>
 {% endblock %}

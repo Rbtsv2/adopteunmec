@@ -52,16 +52,16 @@ class ParsingIdRepository extends ServiceEntityRepository
     {
 
         $sql = "
-                SELECT *
+                SELECT i.id, data, i.created_at
                 FROM informations as i
                 RIGHT JOIN parsing_id as p
                  ON i.relation_id = p.id
-                 WHERE p.urlid = :id
+                 WHERE p.urlid = :urlid
                  ORDER BY i.created_at DESC
                ";
 
         $users =$this->conn->prepare($sql);
-        $users->execute(array(":id" => $id));
+        $users->execute(array(":urlid" => $id));
 
         $arrayUser = $users->fetchAll();
         return $arrayUser;
@@ -162,8 +162,10 @@ class ParsingIdRepository extends ServiceEntityRepository
         return $arrayUsers;
    }
 
-
- 
+   /**
+    * return une liste de client en fonction de la position de la fenetre suivant un rayon de 8 kilometres
+    */
+  
    public function getScreenLocateIds($startlat, $startlng)
    {
         $lat = floatval($startlat);

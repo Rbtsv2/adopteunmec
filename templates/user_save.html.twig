@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>
+        {% block title %}
+            STATS ADOPTE
+        {% endblock %}
+    </title>
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-4.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/dashboard.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/geoapis.css') }}">
+    {% endblock %}
+</head>
+
+<body>
+<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">ADOPTEUNMEC.COM</a>
+ 
+    
+</nav>  
+
+<div class="container-fluid">
+    <div class="row">
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+        
+                <h1 class="h2">{{ user[0]["data"].member.pseudo }}</h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <div class="btn-group mr-2">
+                        <button class="btn btn-sm btn-outline-secondary">Mettre à jour le profil</button>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <img src="{{ user[0]["data"].member.cover }}">
+                </div>
+                <div class="col-4">
+                <h3>Description</h3>
+                {{ user[0]["data"].mainColumn.Description.data[0].value|raw   }} 
+                <h3>Recherche</h3>
+                
+        
+                {{ user[0]["data"].mainColumn['Shopping List'].data[0].value|raw  }}
+
+                </div>
+                <div class="col-5">
+                    <div id="geoloc" ></div>
+                    <div id="map" style="height: 250px; "></div>
+                </div>
+            </div>
+
+          <span>{{ user[0]["data"].sideColumn.map.coords.memberLat }}</span>
+            <span>{{ user[0]["data"].sideColumn.map.coords.memberLng }}</span>
+            <div class="table-responsive">
+                <table id="table" class="table table-striped table-sm">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Pseudo</th>
+                        <th>Age</th>
+                        <th>Title</th>
+                        <th>City</th>
+
+                        <th>Online</th>
+                        <th>Dead</th>
+                        <th>Is Blocked</th>
+                        <th>in Contact</th>
+                        <th>Can mail</th>
+                        <th>Last Connexion</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                    <tr>
+                        <td>{{ user[0]["data"].member.id }}</td>
+                        <td>{{ user[0]["data"].member.pseudo }}</td>
+                        <td>{{ user[0]["data"].member.age }}</td>
+                        <td>{{ user[0]["data"].member.title }}</td>
+                        <td>{{ user[0]["data"].member.city }}</td>
+
+                        <td>{{ user[0]["data"].member.online }}</td>
+                        <td>{{ user[0]["data"].member.dead }}</td>
+                        <td>{{ user[0]["data"].member.isBlocked }}</td>
+                        <td>{{ user[0]["data"].member.inContact }}</td>
+                        <td>{{ user[0]["data"].member.canMail }}</td>
+                        <td>{{ user[0]["data"].member.isFaked }}</td>
+                        <td>{{ user[0]["data"].member.inBasket }}</td>
+
+                        <td>{{ user[0]["data"].headingBlock.lastConnection }}</td>
+                    </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+
+
+
+            <div class="table-responsive">
+                <table id="table" class="table table-striped table-sm">
+                    <thead>
+                    <tr>
+                        <th>Visited</th>
+                        <th>Flash</th>
+                        <th>Contacts</th>
+                        <th>Mails</th>
+                        <th>Invits</th>
+                        <th>Bonus</th>
+                        <th>Popu</th>
+                        <th>Id</th>
+                        <th>Profile_completion</th>
+                        <th>Rate</th>
+
+                        <th>mails</th>
+                        <th>visites</th>
+                        <th>contacts</th>
+                        <th>bonus</th>
+                        <th>flashs</th>
+
+
+                        <th>Mails</th>
+                        <th>Flashs</th>
+                        <th>Visites</th>
+                        <th>Contacts</th>
+
+
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr>
+                        <td>{{ user[0]["data"].headingBlock.popularity.popu.visites }}</td>
+                        <td>{{ user[0]["data"].headingBlock.popularity.popu.flashs }}</td>
+                        <td>{{ user[0]["data"].headingBlock.popularity.popu.contacts }}</td>
+                        <td>{{ user[0]["data"].headingBlock.popularity.popu.mails }}</td>
+                        <td>{{ user[0]["data"].headingBlock.popularity.popu.invits }}</td>
+                        <td>{{ user[0]["data"].headingBlock.popularity.popu.bonus }}</td>
+                        <td>{{ user[0]["data"].headingBlock.popularity.popu.popu }}</td>
+                        <td>{{ user[0]["data"].headingBlock.popularity.popu.id }}</td>
+                        <td>{{ user[0]["data"].headingBlock.popularity.popu.profile_completion }}</td>
+                        <td>{{ user[0]["data"].headingBlock.popularity.popu.rate }}</td>
+
+                        <td>{{ user[0]["data"].headingBlock.popularity.popuData.mails }}</td>
+                        <td>{{ user[0]["data"].headingBlock.popularity.popuData.visites }}</td>
+                        <td>{{ user[0]["data"].headingBlock.popularity.popuData.contacts }}</td>
+                        <td>{{ user[0]["data"].headingBlock.popularity.popuData.bonus }}</td>
+                        <td>{{ user[0]["data"].headingBlock.popularity.popuData.flashs|default('-') }}</td>
+
+                        <td>{{ user[0]["data"].headingBlock.popularity.constants.mails }}</td>
+                        <td>{{ user[0]["data"].headingBlock.popularity.constants.flashs|default('-') }}</td>
+                        <td>{{ user[0]["data"].headingBlock.popularity.constants.visites }}</td>
+                        <td>{{ user[0]["data"].headingBlock.popularity.constants.contacts }}</td>
+
+
+                    </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+
+
+            <div class="table-responsive">
+                <table id="table" class="table table-striped table-sm">
+                    <thead>
+                    <tr>
+                        <th>Can charm</th>
+                        <th>Can add friends</th>
+                        <th>waitingCharm</th>
+                        <th>hasFriends</th>
+
+
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr>
+                        <td>{{ user[0]["data"].buttons.canCharm }}</td>
+                        <td>{{ user[0]["data"].buttons.canAddFriend }}</td>
+                        <td>{{ user[0]["data"].buttons.waitingCharm }}</td>
+                        <td>{{ user[0]["data"].buttons.hasFriends }}</td>
+
+                    </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+            {% for picture in user[0]["data"].member.pictures %}
+
+                <img src="{{ picture.urlFullsize }}" alt="Bootstrap" class="img-thumbnail">
+                <span>Note : {{ picture.note }}</span>
+            {% endfor %}
+               </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    {% for h in user[0]["data"].headingBlock.hashtags %}
+                        <span>Note : {{ h.hashtag }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </main>
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+{% block javascripts %}
+    <script src="{{ asset('assets/js/bootstrap-4.js') }}"></script>
+    <script src="{{ asset('assets/js/popper.min.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery-3.2.1.slim.min.js') }}"></script>
+    <script src="{{ asset('assets/js/geoapis.js') }}"></script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBK_7aiZII6gELxc-dOX7syujK5cXnrAqU&callback=initMap">
+    </script>
+    
+    <script>
+
+        // On stock les coordonnes à terme =>   foreach sur user tab 
+        var lat = {{ user[0]["data"].sideColumn.map.coords.memberLat }};
+        var lon = {{ user[0]["data"].sideColumn.map.coords.memberLng }};
+
+
+        function initMap() {
+
+            var greenIcon = L.icon({
+                iconUrl: "{{ asset('assets/img/target.png') }}",
+                iconSize: [30, 30],
+
+            });
+
+            // Créer l'objet "macarte" et l'insèrer dans l'élément HTML qui a l'ID "map"
+            var map = L.map('map').setView([lat, lon], 18);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+
+            }).addTo(map);
+
+            L.marker([lat, lon], {icon: greenIcon}).addTo(map)
+                .bindPopup('{{ user[0]["data"].member.pseudo }}');
+
+
+        }
+
+        // function en cours d'édition 
+        function getMarkers(data) {
+
+            let markers = [];
+            let groupMarkers = L.markerClusterGroup();
+
+            data.forEach(element => {
+                    var icon = L.icon({
+                        iconUrl: pointer,
+                        iconSize: [30, 30],
+                        className : ''
+                    });
+
+                    var marker = L.marker([element.lat, element.lng], {icon: icon}).addTo(layers['localisation']);
+                    markers.push(marker);
+                    groupMarkers.addLayer(marker);
+            });
+            
+            this.map.addLayer(groupMarkers);
+            return markers;
+
+        }
+
+        // constructeur de map
+        function constructMap(position, layers) {
+            this.map = L.map('map', {
+                fullscreenControl: true,
+                center: L.latLng( position.coords.latitude,position.coords.longitude),
+            
+                zoom: this.options.zoom, 
+                layers: layers
+            });
+
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{}).addTo(this.map);
+            let markers = this.getMarkers(position.coords.latitude, position.coords.longitude, layers);
+
+        
+            return markers;
+            
+        }
+
+        window.onload = function(){
+            initMap();
+        };
+
+    </script>
+{% endblock %}
+</body>
+
+
+</body>
+</html>

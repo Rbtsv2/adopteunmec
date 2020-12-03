@@ -24,14 +24,41 @@ class ApiController extends AbstractController
     }
 
     /**
+     * lat et lon definissent la position de l'utilisateur qui souhaite afficher les clients sur la carte
+     * return une liste de client d'un perimetre de 8 kilometres en fonction de la position de l'utilisateur
      * @Route("/users/{lat}/{lon}", name="users")
      * @return Response
      */
-    public function index(Request $request, $lat, $lon)
+    public function getClientsOnScreenLocate(Request $request, $lat, $lon)
     {
          $result = $this->em->getRepository('App:ParsingId')->getScreenLocateIds($lat,$lon); ///api/users/43.60436/1.44295 [toulouse]
          return new JsonResponse($result);
         
+    }
+
+    /**
+     * return les coordonnées d'un client
+     * @route("/user/locate/{id}", name="client_locate")
+     * @return Response
+     */
+    public function getLatLonFromOneClient($id)
+    {
+       
+        $results = $this->em->getRepository('App:ParsingId')->getId($id);
+
+        // deserialize DC2Type to array
+        foreach ($results as $result) {
+            $data = unserialize($result["data"]);
+
+            $tabResult[] = [
+                'lat'        => $data['sideColumn']['map']["coords"]["memberLat"], // On le transforme en tableau
+                'lon'        => $data['sideColumn']['map']["coords"]["memberLng"],
+                'created'    => $result['created_at'] 
+            ];
+
+        }
+       
+        return new jsonResponse($tabResult);
     }
 
 

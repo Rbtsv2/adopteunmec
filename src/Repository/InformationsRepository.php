@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Informations;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @method Informations|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,37 +15,30 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class InformationsRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $em)
     {
         parent::__construct($registry, Informations::class);
+
+        $this->em = $em;
+        $this->conn = $this->em->getConnection();
     }
 
-    // /**
-    //  * @return Informations[] Returns an array of Informations objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getOneData($id)
     {
-        return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('i.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Informations
-    {
-        return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $sql = "
+                SELECT *
+                FROM informations 
+                WHERE id = :id
+               ";
+
+        $users =$this->conn->prepare($sql);
+        $users->execute(array(":id" => $id));
+
+        $arrayUser = $users->fetchAll();
+        return $arrayUser;
+
     }
-    */
+
+  
 }

@@ -8,5 +8,5 @@ require('bootstrap');
 // require('bootstrap/js/dist/popover');
 
 $(document).ready(function() {
-    alert.('coucou')
+    alert('coucou')
 });

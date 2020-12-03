@@ -58,24 +58,41 @@ class StatsController extends AbstractController
 
     /**
      * @Route("/product/{id}", name="product")
+     * @Route("/product/{id}/{save}", name="product_save")
      */
-    public function product($id)
+    public function product($id, $save =null)
     {
-       
-        $results = $this->em->getRepository('App:ParsingId')->getId($id);
+        // si il y a un parametre save renseigné alors on l'affiche solution temporaire
+        if ($save) {
+            // on recuperer le profil save cible pour l'afficher
+            $results = $this->em->getRepository('App:Informations')->getOneData($save);
+            
+            $tabResult[] = [
+                'id_save'         => $results[0]["id"],
+                'data'       => unserialize($results[0]["data"]),
+                'created_at' => $results[0]['created_at']  
+            ];
 
+            if ($results) {
+                return $this->render('user_save.html.twig', ['user' => $tabResult]);
+            } else {
+                var_dump('no data, its possible this profile are closed or wait');
+                die;
+            }
+        }
+        
+        $results = $this->em->getRepository('App:ParsingId')->getId($id);
 
         // deserialize DC2Type to array
         foreach ($results as $result) {
                    
             $tabResult[] = [
-                'data' => unserialize($result["data"]),
-                'created_at' => $result['created_at']   
+                'id_save'         => $result["id"],
+                'data'       => unserialize($result["data"]),
+                'created_at' => $result['created_at']  
             ];
+
         }
-   
-        // var_dump($tabResult);
-        // die;
         if ($results) {
             return $this->render('user.html.twig', ['user' => $tabResult]);
         } else {

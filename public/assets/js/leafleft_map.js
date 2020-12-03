@@ -63,7 +63,7 @@ class LeafleftMap {
 
     addCirclePosition(position) {
 
-        var circle = L.circle([position.coords.latitude, position.coords.longitude], 100000, {
+        var circle = L.circle([position.coords.latitude, position.coords.longitude], 1000, {
             color: 'red',
             fillColor: '#f03',
             fillOpacity: 0.5
