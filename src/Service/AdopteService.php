@@ -304,11 +304,18 @@ class AdopteService
         }
     }
 
+    /**
+     * return true if similar
+     */
     public function isSimilar($oldData, $newData)
     {
         similar_text($oldData, $newData, $percent);
-        return ($percent != 100)? TRUE : FALSE;
-      
+        // patch pour similar_text() renvoi false pour 2 chaines vides ce qui n'est pas normal..
+        if ($oldData === '' && $newData === '') {
+            return true;
+        }else {
+           return ($percent != 100)? FALSE : TRUE; 
+        }
     }
 
    
@@ -329,7 +336,25 @@ class AdopteService
         ////// DONNE EN BASE ///////////
         $results = $this->em->getRepository('App:ParsingId')->getId($id);
         $oldDonne = unserialize($results[0]["data"]);
-   
+
+        // var_dump($oldDonne['member']['pseudo']);
+        // var_dump($oldDonne['member']['age']);
+        // var_dump($oldDonne["mainColumn"]["Description"]["data"][0]["value"]);
+        // var_dump($oldDonne["mainColumn"]["Shopping List"]["data"][0]["value"]);
+        // var_dump($oldDonne["sideColumn"]["map"]["coords"]["memberLat"]);
+        // var_dump($oldDonne["sideColumn"]["map"]["coords"]["memberLng"]);
+
+
+        // var_dump('-----------------------------------------------');
+
+
+        // var_dump($data['member']['pseudo']);
+        // var_dump($data['member']['age']);
+        // var_dump($data["mainColumn"]["Description"]["data"][0]["value"]);
+        // var_dump($data["mainColumn"]["Shopping List"]["data"][0]["value"]);
+        // var_dump($data["sideColumn"]["map"]["coords"]["memberLat"]);
+        // var_dump($data["sideColumn"]["map"]["coords"]["memberLng"]);
+
 
         $pseudo_compare      = $this->isSimilar($data['member']['pseudo'], $oldDonne['member']['pseudo']);
         $age_compare         = $this->isSimilar($data['member']['age'], $oldDonne['member']['age']);
@@ -342,8 +367,12 @@ class AdopteService
 
         $results = [$pseudo_compare,$age_compare, $description_compare, $recherche_compare,$lat_compare, $lng_compare];
 
+        // $test =  $this->isSimilar('2', '');
+        // var_dump($results);
+        // var_dump($test);
+
         foreach ($results as $result) {
-            if ($result) {
+            if ($result === false) {
 
                 $user = $this->em->getRepository('App:ParsingId')->findOneBy(array('urlid' => $data['member']['id']));
                 // on enregistre les nouvelles données

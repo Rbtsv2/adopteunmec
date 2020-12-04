@@ -67,11 +67,8 @@ class ApiController extends AbstractController
      */
     public function similar(Request $request, $id)
     {  
- 
         $result = $this->adopteService->exctractAndCompareApi($id);
-        var_dump($result);
-        die;
-       
+        return new jsonResponse($result);
     }
 
 

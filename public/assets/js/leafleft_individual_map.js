@@ -9,17 +9,14 @@ class LeafleftMap {
             zoom: options.zoom || 4,
         };
  
-
-       
-
         let map = this.initMap();
-        this.getMarkers(map); 
-        
+        this.getMarkers(map);    
         
     }
 
 
     initMap() {
+        // calculer le centre de la positiion d'un ensemble de point
         var lat = 47.555; //temporaire
         var lon = 1.25854; //temporaire
         var map = L.map('map').setView([lat, lon], this.options.zoom);
@@ -57,12 +54,6 @@ class LeafleftMap {
                  
              });
              this.getVector(points, map);
-        
-            
-        });
-        
-
+        });      
     }
-
-
 }

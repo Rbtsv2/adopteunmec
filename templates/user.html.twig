@@ -12,8 +12,27 @@
         <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-4.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/dashboard.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/geoapis.css') }}">
+        <link rel="stylesheet" href="https://cdn.rawgit.com/sachinchoolur/lightgallery.js/master/dist/css/lightgallery.css">
+
+
+
     {% endblock %}
 </head>
+
+<style>
+.grid-sizer,
+.grid-item {
+  width: 20%;
+}
+
+.grid-item {
+  height: auto;
+  float: left; 
+
+}
+
+
+</style>
 
 <body>
 <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
@@ -46,6 +65,172 @@
                   
                 </ul>
 
+                <hr/>
+          
+                <table style="width:100%">
+                    <tr>
+                        <th>ID:</th>
+                        <td>{{ user[0]["data"].member.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Pseudo:</th>
+                        <td>{{ user[0]["data"].member.pseudo }}</td>
+                    </tr>
+                    <tr>
+                        <th>Age:</th>
+                        <td>{{ user[0]["data"].member.age }}</td>
+                    </tr>
+                    <tr>
+                        <th>Title:</th>
+                        <td>{{ user[0]["data"].member.title }}</td>
+                    </tr>
+                    <tr>
+                        <th>City:</th>
+                        <td><strong>{{ user[0]["data"].member.city }}</strong></td>
+                    </tr>
+                    <tr>
+                        <th>Online:</th>
+                        <td>{{ user[0]["data"].member.online }}</td>
+                    </tr>
+                    <tr>
+                        <th>Dead:</th>
+                        <td>{{ user[0]["data"].member.dead }}</td>
+                    </tr>
+                    <tr>
+                        <th>Is Blocked:</th>
+                        <td>{{ user[0]["data"].member.isBlocked }}</td>
+                    </tr>
+                    <tr>
+                        <th>in Contact:</th>
+                        <td>{{ user[0]["data"].member.inContact }}</td>
+                    </tr>
+                    <tr>
+                        <th>Can mail:</th>
+                        <td>{{ user[0]["data"].member.canMail }}</td>
+                    </tr>
+                    <tr>
+                        <th>Is Fake:</th>
+                        <td>{{ user[0]["data"].member.isFaked }}</td>
+                    </tr>
+                    <tr>
+                        <th>Can mail:</th>
+                        <td>{{ user[0]["data"].member.canMail }}</td>
+                    </tr>
+                    <tr>
+                        <th>In basket:</th>
+                        <td>{{ user[0]["data"].member.inBasket }}</td>
+                    </tr>
+                    <tr>
+                        <th>In basket:</th>
+                        <td>{{ user[0]["data"].member.inBasket }}</td>
+                    </tr> 
+                    <tr>
+                        <th>Last Connection:</th>
+                        <td>{{ user[0]["data"].headingBlock.lastConnection }}</td>
+                    </tr>
+                    <tr>
+                        <th>Latitude:</th>
+                        <td style="color:red">{{ user[0]["data"].sideColumn.map.coords.memberLat }}</td>
+                    </tr>  
+                    <tr>
+                        <th>Longitude:</th>
+                        <td style="color:red">{{ user[0]["data"].sideColumn.map.coords.memberLng }}</td>
+                    </tr>
+                    
+                    <tr>
+                        <th>-------</th>
+                        <td style="">---------</td>
+                    </tr> 
+                    <tr>
+                        <th>Visited:</th>
+                        <td style="">{{ user[0]["data"].headingBlock.popularity.popu.visites }}</td>
+                    </tr> 
+                    <tr>
+                        <th>Flash:</th>
+                        <td style="">{{ user[0]["data"].headingBlock.popularity.popu.flashs }}</td>
+                    </tr> 
+                    <tr>
+                        <th>Contacts:</th>
+                        <td style="">{{ user[0]["data"].headingBlock.popularity.popu.contacts }}</td>
+                    </tr> 
+                   
+                    <tr>
+                        <th>Mails:</th>
+                        <td style="">{{ user[0]["data"].headingBlock.popularity.popu.mails }}</td>
+                    </tr> 
+                    <tr>
+                        <th>Invits:</th>
+                        <td style="">{{ user[0]["data"].headingBlock.popularity.popu.invits }}</td>
+                    </tr>                    
+                    <tr>
+                        <th>Bonus:</th>
+                        <td style="">{{ user[0]["data"].headingBlock.popularity.popu.bonus }}</td>
+                    </tr> 
+                    <tr>
+                        <th>Popularité :</th>
+                        <td style="">{{ user[0]["data"].headingBlock.popularity.popu.popu }}</td>
+                    </tr> 
+                    <tr>
+                        <th>Id:</th>
+                        <td style="">{{ user[0]["data"].headingBlock.popularity.popu.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Profile_completion:</th>
+                        <td style="">{{ user[0]["data"].headingBlock.popularity.popu.profile_completion }}</td>
+                    </tr>                    
+                    <tr>
+                        <th>Rate:</th>
+                        <td style="">{{ user[0]["data"].headingBlock.popularity.popu.rate }}</td>
+                    </tr> 
+
+                    <tr>
+                        <th>-------</th>
+                        <td style="">---------</td>
+                    </tr>               
+                     <tr>
+                        <th>mails:</th>
+                        <td style="">{{ user[0]["data"].headingBlock.popularity.popuData.mails }}</td>
+                    </tr>                      
+                    <tr>
+                        <th>visites:</th>
+                        <td style="">{{ user[0]["data"].headingBlock.popularity.popuData.visites }}</td>
+                    </tr> 
+                    <tr>
+                        <th>contacts:</th>
+                        <td style="">{{ user[0]["data"].headingBlock.popularity.popuData.contacts }}</td>
+                    </tr> 
+                    <tr>
+                        <th>bonus:</th>
+                        <td style="">{{ user[0]["data"].headingBlock.popularity.popuData.bonus }}</td>
+                    </tr> 
+                    <tr>
+                        <th>flashs:</th>
+                        <td style="">{{ user[0]["data"].headingBlock.popularity.popuData.flashs|default('-') }}</td>
+                    </tr> 
+
+                    <tr>
+                        <th>-------</th>
+                        <td style="">---------</td>
+                    </tr> 
+                    <tr>
+                        <th>Mails:</th>
+                        <td style="">{{ user[0]["data"].headingBlock.popularity.constants.mails }}</td>
+                    </tr> 
+                    <tr>
+                        <th>flashs:</th>
+                        <td style="color:red">{{ user[0]["data"].headingBlock.popularity.constants.flashs|default('-') }}</td>
+                    </tr> 
+                    <tr>
+                        <th>Visites:</th>
+                        <td style="color:red">{{ user[0]["data"].headingBlock.popularity.constants.visites }}</td>
+                    </tr> 
+                    <tr>
+                        <th>Contacts:</th>
+                        <td style="color:red">{{ user[0]["data"].headingBlock.popularity.constants.contacts }}</td>
+                    </tr> 
+
+                </table>
+
             
                 
             </div>
@@ -56,14 +241,14 @@
                 <h1 class="h2">{{ user[0]["data"].member.pseudo }}</h1>
                 <div class="btn-toolbar mb-2 mb-md-0">
                     <div class="btn-group mr-2">
-                        <button class="btn btn-sm btn-outline-secondary">Mettre à jour le profil</button>
+                        <button id="update" class="btn btn-sm btn-outline-secondary">Mettre à jour le profil</button>
                     </div>
 
                 </div>
             </div>
             <div class="row">
                 <div class="col-3">
-                    <img src="{{ user[0]["data"].member.cover }}">
+                    <img class="img-thumbnail" src="{{ user[0]["data"].member.cover }}">
                 </div>
                 <div class="col-4">
                 <h3>Description</h3>
@@ -80,116 +265,10 @@
                 </div>
             </div>
 
-          <span>{{ user[0]["data"].sideColumn.map.coords.memberLat }}</span>
-            <span>{{ user[0]["data"].sideColumn.map.coords.memberLng }}</span>
-            <div class="table-responsive">
-                <table id="table" class="table table-striped table-sm">
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Pseudo</th>
-                        <th>Age</th>
-                        <th>Title</th>
-                        <th>City</th>
+  
+       
 
-                        <th>Online</th>
-                        <th>Dead</th>
-                        <th>Is Blocked</th>
-                        <th>in Contact</th>
-                        <th>Can mail</th>
-                        <th>Last Connexion</th>
-                    </tr>
-                    </thead>
-
-                    <tbody>
-
-                    <tr>
-                        <td>{{ user[0]["data"].member.id }}</td>
-                        <td>{{ user[0]["data"].member.pseudo }}</td>
-                        <td>{{ user[0]["data"].member.age }}</td>
-                        <td>{{ user[0]["data"].member.title }}</td>
-                        <td>{{ user[0]["data"].member.city }}</td>
-
-                        <td>{{ user[0]["data"].member.online }}</td>
-                        <td>{{ user[0]["data"].member.dead }}</td>
-                        <td>{{ user[0]["data"].member.isBlocked }}</td>
-                        <td>{{ user[0]["data"].member.inContact }}</td>
-                        <td>{{ user[0]["data"].member.canMail }}</td>
-                        <td>{{ user[0]["data"].member.isFaked }}</td>
-                        <td>{{ user[0]["data"].member.inBasket }}</td>
-
-                        <td>{{ user[0]["data"].headingBlock.lastConnection }}</td>
-                    </tr>
-
-                    </tbody>
-                </table>
-
-            </div>
-
-
-
-            <div class="table-responsive">
-                <table id="table" class="table table-striped table-sm">
-                    <thead>
-                    <tr>
-                        <th>Visited</th>
-                        <th>Flash</th>
-                        <th>Contacts</th>
-                        <th>Mails</th>
-                        <th>Invits</th>
-                        <th>Bonus</th>
-                        <th>Popu</th>
-                        <th>Id</th>
-                        <th>Profile_completion</th>
-                        <th>Rate</th>
-
-                        <th>mails</th>
-                        <th>visites</th>
-                        <th>contacts</th>
-                        <th>bonus</th>
-                        <th>flashs</th>
-
-
-                        <th>Mails</th>
-                        <th>Flashs</th>
-                        <th>Visites</th>
-                        <th>Contacts</th>
-
-
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                    <tr>
-                        <td>{{ user[0]["data"].headingBlock.popularity.popu.visites }}</td>
-                        <td>{{ user[0]["data"].headingBlock.popularity.popu.flashs }}</td>
-                        <td>{{ user[0]["data"].headingBlock.popularity.popu.contacts }}</td>
-                        <td>{{ user[0]["data"].headingBlock.popularity.popu.mails }}</td>
-                        <td>{{ user[0]["data"].headingBlock.popularity.popu.invits }}</td>
-                        <td>{{ user[0]["data"].headingBlock.popularity.popu.bonus }}</td>
-                        <td>{{ user[0]["data"].headingBlock.popularity.popu.popu }}</td>
-                        <td>{{ user[0]["data"].headingBlock.popularity.popu.id }}</td>
-                        <td>{{ user[0]["data"].headingBlock.popularity.popu.profile_completion }}</td>
-                        <td>{{ user[0]["data"].headingBlock.popularity.popu.rate }}</td>
-
-                        <td>{{ user[0]["data"].headingBlock.popularity.popuData.mails }}</td>
-                        <td>{{ user[0]["data"].headingBlock.popularity.popuData.visites }}</td>
-                        <td>{{ user[0]["data"].headingBlock.popularity.popuData.contacts }}</td>
-                        <td>{{ user[0]["data"].headingBlock.popularity.popuData.bonus }}</td>
-                        <td>{{ user[0]["data"].headingBlock.popularity.popuData.flashs|default('-') }}</td>
-
-                        <td>{{ user[0]["data"].headingBlock.popularity.constants.mails }}</td>
-                        <td>{{ user[0]["data"].headingBlock.popularity.constants.flashs|default('-') }}</td>
-                        <td>{{ user[0]["data"].headingBlock.popularity.constants.visites }}</td>
-                        <td>{{ user[0]["data"].headingBlock.popularity.constants.contacts }}</td>
-
-
-                    </tr>
-
-                    </tbody>
-                </table>
-
-            </div>
+            
 
 
             <div class="table-responsive">
@@ -221,13 +300,28 @@
 
             <div class="row">
                 <div class="col-12">
-            {% for picture in user[0]["data"].member.pictures %}
 
-                <img src="{{ picture.urlFullsize }}" alt="Bootstrap" class="img-thumbnail">
-                <span>Note : {{ picture.note }}</span>
-            {% endfor %}
+                   
+                                <div id ="responsive-images">   
+                                
+                                        {% for picture in user[0]["data"].member.pictures %}
+                                          <div class ="grid-item ">
+                                                <a href="{{ picture.urlFullsize }}">
+                                                    <img src="{{ picture.urlFullsize }}" alt="Note : {{ picture.note }}" class="img-thumbnail">
+                                                </a> 
+                                           </div>        
+                                        {% endfor %}
+                                 </div>
+                    </div>
+
                </div>
             </div>
+
+
+
+
+
+
 
             <div class="row">
                 <div class="col-12">
@@ -241,9 +335,7 @@
     </div>
 </div>
 
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
+
 {% block javascripts %}
 
     <script src="{{ asset('assets/js/popper.min.js') }}"></script>
@@ -259,93 +351,79 @@
     <script src="{{ asset('assets/js/leaflet_arrowheads.js') }}"></script>
 
     <script src='{{ asset('assets/js/leafleft_individual_map.js') }}'></script>
-   
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
     <script>
+
+
+       
+
+
         window.onload = function() {
             let leafletmap = new LeafleftMap({
                 id: '{{ user[0]["data"].member.id }}',
                 zoom: 5
             });
         };
+
+        var id = '{{ user[0]["data"].member.id }}';
+
+
+        $('#update').on('click', function(e) {
+            e.preventDefault();
+            $.ajax({
+                url:'/api/similar/' + id, 
+                method: 'GET',
+
+            }).done(function(data){
+
+                switch (data) {
+                    case true:
+                        Swal.fire(
+                            'Terminé',
+                            'Des mises à jours on été trouvées !',
+                            'success'
+                        );
+
+                        Swal.fire({
+                            title: 'Terminé',
+                            text: "Des mises à jours on été trouvées !",
+                            icon: 'success',
+                            showCancelButton: false,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'ok'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.reload(true);  
+                            }
+                        })
+                    break;
+
+                    case false: 
+                        Swal.fire(
+                            'Terminé',
+                            'Aucune mise à jours trouvées',
+                            'info'
+                        );
+                    break;
+                    default :
+                        Swal.fire(
+                            'Terminé',
+                            data,
+                            'info'
+                        );
+                    break;
+                }
+               
+            });
+        });
+
+
+
     </script>
 
-        // je suis en train de tout refaire dans la classe leaflet_individual pour afficher les marqueurs.
 
-        {# // On stock les coordonnes à terme =>   foreach sur user tab 
-        var lat = {{ user[0]["data"].sideColumn.map.coords.memberLat }};
-        var lon = {{ user[0]["data"].sideColumn.map.coords.memberLng }};
-
-
-        function initMap() {
-
-            var greenIcon = L.icon({
-                iconUrl: "{{ asset('assets/img/target.png') }}",
-                iconSize: [30, 30],
-
-            });
-
-
-            // Créer l'objet "macarte" et l'insèrer dans l'élément HTML qui a l'ID "map"
-            var map = L.map('map').setView([lat, lon], 18);
-
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-
-            }).addTo(map);
-
-            L.marker([lat, lon], {icon: greenIcon}).addTo(map)
-                .bindPopup('{{ user[0]["data"].member.pseudo }}');
-
-
-        }
-
-        // function en cours d'édition 
-        function getMarkers(data) {
-
-            let markers = [];
-            let groupMarkers = L.markerClusterGroup();
-
-            data.forEach(element => {
-                    var icon = L.icon({
-                        iconUrl: pointer,
-                        iconSize: [30, 30],
-                        className : ''
-                    });
-
-                    var marker = L.marker([element.lat, element.lng], {icon: icon}).addTo(layers['localisation']);
-                    markers.push(marker);
-                    groupMarkers.addLayer(marker);
-            });
-            
-            this.map.addLayer(groupMarkers);
-            return markers;
-
-        }
-
-        // constructeur de map
-        function constructMap(position, layers) {
-            this.map = L.map('map', {
-                fullscreenControl: true,
-                center: L.latLng( position.coords.latitude,position.coords.longitude),
-            
-                zoom: this.options.zoom, 
-                layers: layers
-            });
-
-            
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{}).addTo(this.map);
-            let markers = this.getMarkers(position.coords.latitude, position.coords.longitude, layers);
-
-        
-            return markers;
-            
-        }
-
-        window.onload = function(){
-            initMap();
-        }; #}
-
-    </script>
 {% endblock %}
 </body>
 
