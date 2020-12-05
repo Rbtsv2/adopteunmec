@@ -10,7 +10,8 @@ class LeafleftMap {
         };
  
         let map = this.initMap();
-        this.getMarkers(map);    
+        this.getMarkers(map); 
+        
         
     }
 
@@ -45,7 +46,7 @@ class LeafleftMap {
 
                  console.log(element);
                  points.push([element.lat, element.lon]);
-    
+
                    var icon = L.icon({
                        iconUrl: "../assets/img/target.png",
                        iconSize: [30, 30],
@@ -54,6 +55,12 @@ class LeafleftMap {
                  
              });
              this.getVector(points, map);
-        });      
+             var bounds = new L.LatLngBounds(points);
+             map.fitBounds(bounds);
+        }); 
+      
+
+
+
     }
 }
