@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+{# <!DOCTYPE html>
 <html lang="{{ app.request.locale }}">
 <head>
     <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=0"/>
     <title>
         {% block title %}
             STATS ADOPTE
@@ -17,8 +17,10 @@
 
 
     {% endblock %}
-</head>
+</head> #}
+{% extends 'layout/base.html.twig' %}
 
+{% block body %}
 <style>
 .grid-sizer,
 .grid-item {
@@ -33,12 +35,8 @@
 
 
 </style>
-
 <body>
-<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
-    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">ADOPTEUNMEC.COM</a>
-    
-</nav>  
+
 
 <div class="container-fluid">
     <div class="row">
@@ -274,11 +272,11 @@
                 </div>
                 <div class="col-4">
                 <h3>Description</h3>
-                {{ user[0]["data"].mainColumn.Description.data[0].value|raw   }} 
+                <p>{{ user[0]["data"].mainColumn.Description.data[0].value|raw   }} </p>
                 <h3>Recherche</h3>
                 
         
-                {{ user[0]["data"].mainColumn['Shopping List'].data[0].value|raw  }}
+                <p>{{ user[0]["data"].mainColumn['Shopping List'].data[0].value|raw  }}</p>
 
                 </div>
                 <div class="col-5">
@@ -409,8 +407,10 @@
 
 
 {% endblock %}
-</body>
 
 
-</body>
-</html>
+{% endblock %}
+
+
+{# </body> #}
+{# </html> #}
