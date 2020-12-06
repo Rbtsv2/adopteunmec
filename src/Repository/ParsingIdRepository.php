@@ -47,7 +47,9 @@ class ParsingIdRepository extends ServiceEntityRepository
 
     }
 
-
+    /**
+     * Return toutes les informations de l'utilisateurs du plus recent au plus ancien
+     */
     public function getId($id)
     {
 
@@ -68,6 +70,24 @@ class ParsingIdRepository extends ServiceEntityRepository
 
     }
 
+
+    public function getSearch($mots)
+    {
+        $sql = "
+                SELECT p.urlid, p.pseudo, p.age, p.avatar, p.city
+                FROM parsing_id as p
+                WHERE p.pseudo LIKE '%".$mots."%'
+             
+               ";
+        $users =$this->conn->prepare($sql);
+        $users->execute();
+
+        $arrayUser = $users->fetchAll();
+        return $arrayUser;
+
+    }
+
+    
     // public function findInformations() {
     //     $sql = "
     //             SELECT urlid 
@@ -140,6 +160,26 @@ class ParsingIdRepository extends ServiceEntityRepository
 
         $arrayUsers = $users->fetchAll();
         return $arrayUsers;
+   }
+
+   /**
+    * recupere les informations complètes des 20 derniers nouveaux profils enregistrés
+    */
+   public function getRecentsIds()
+   {
+        $sql = "
+            SELECT p.urlid, p.pseudo, p.age, p.avatar, p.city
+            FROM parsing_id as p
+            WHERE p.avatar is not NULL
+            ORDER BY p.id DESC
+            LIMIT 20    
+        ";
+
+        $users = $this->conn->prepare($sql);
+        $users->execute();
+        $arrayUsers = $users->fetchAll();
+        return $arrayUsers;
+
    }
 
    public function getLocateIds()

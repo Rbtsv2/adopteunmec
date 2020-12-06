@@ -40,7 +40,6 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <script src="{{ asset('assets/js/popper.min.js') }}"></script>
 
-
  
 {% if is_granted('ROLE_ADMIN') %}
     <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.full.min.js"></script>
@@ -63,6 +62,83 @@
             zoom: 12
             });
         };
+
+    </script>
+{% endif %}
+
+{% if app.request.get('_route') == 'search' %}
+
+    <script>
+
+        var range = [18,35]; // range par default 
+        // code concernant la route search à mettre dans un fichier js unique 
+        var slider = new Slider("#slider1");
+        slider.on("slide", function(slideEvt) {
+            var range = slider.getValue();
+        });
+       
+        $('#femme').click(function(){
+            if($(this).prop("checked") == true){
+            var femme = true;
+            }
+            else if($(this).prop("checked") == false){
+            var femme = false;
+            }
+        });
+        $('#homme').click(function(){
+            if($(this).prop("checked") == true){
+            var homme = true;
+            }
+            else if($(this).prop("checked") == false){
+            var homme = false;
+            }
+        });
+
+
+        var genre = [femme, homme];
+
+        $('#search').on('keyup', function(e) {
+            var data = [];
+            data.push({
+                'search': this.value,
+                'range' : range,
+                'genre' : genre
+            });
+
+            jsonString = JSON.stringify({data});
+            // il faut declanché la recherche au bout de 4 caracteres 
+            if (this.value.length === 4) {
+                search(jsonString);
+            };
+         
+        });
+
+
+
+        function search(jsonString) {
+            $.ajax({
+            type: "POST",
+            url: "/api/search",
+            data: "data="+jsonString,
+            success: function(element) {
+                console.log(element);
+                
+                $('.profile').remove(); // on remove tous les profils
+
+                 element.forEach(e => {
+
+                        console.log(e.urlid);
+                        $( ".gallery" ).append( '<div class="col-lg-3 col-md-4 col-6 profil"><a href="/product/'+e.urlid+'" class="d-block mb-4 h-100"><img class="img-fluid img-thumbnail" src="'+e.avatar+'" alt="'+e.pseudo+'"><span style="color:black" >'+e.pseudo+'-'+e.age+' ans -'+e.city+'</span>' );
+
+                }) 
+
+            }
+        });
+        }
+        
+
+
+
     </script>
 {% endif %}
 

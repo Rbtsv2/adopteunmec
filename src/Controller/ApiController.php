@@ -73,6 +73,25 @@ class ApiController extends AbstractController
 
 
     /**
+     * @Route("/search", name="Api_search")
+     */
+    public function apiSearch(Request $request)
+    {  
+
+        $result =  json_decode($request->request->get('data'),true);
+        $chaine_de_recherche = $result["data"][0]["search"];
+        $range = $result["data"][0]["range"]; // rnage is ok ! 
+        $genre = $result["data"][0]["genre"]; // On peut améliorer côté js
+        
+        var_dump($range);
+        $mots = explode(" ", $chaine_de_recherche); // on sépare la chaine de recherche
+        $nombre_de_mot = count($mots); // la requette dependra du nombre de mot et construira la requette
+        $result = $this->em->getRepository('App:ParsingId')->getSearch($mots[0]);
+
+        return new jsonResponse($result);
+    }
+
+    /**
      * route privée qui active le worker app:parse
      * @Route("/user/worker/{etat}", name="play")
      */

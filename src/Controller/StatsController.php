@@ -43,7 +43,7 @@ class StatsController extends AbstractController
      */
     public function search()
     {
-        $result = $this->em->getRepository('App:ParsingId')->getAllIds();
+        $result = $this->em->getRepository('App:ParsingId')->getRecentsIds();
         return $this->render('home/search.html.twig', ['users' => $result]); 
     }
     /**
