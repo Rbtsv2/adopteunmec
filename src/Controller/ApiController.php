@@ -80,13 +80,14 @@ class ApiController extends AbstractController
 
         $result =  json_decode($request->request->get('data'),true);
         $chaine_de_recherche = $result["data"][0]["search"];
-        $range = $result["data"][0]["range"]; // rnage is ok ! 
-        $genre = $result["data"][0]["genre"]; // On peut améliorer côté js
-        
-        var_dump($range);
+        $range = $result["data"][0]["range"];  
+        $genre = $result["data"][0]["genre"]; 
+
+       
         $mots = explode(" ", $chaine_de_recherche); // on sépare la chaine de recherche
+        $mots[1] = isset($mots[1]) ? $mots[1] : '';
         $nombre_de_mot = count($mots); // la requette dependra du nombre de mot et construira la requette
-        $result = $this->em->getRepository('App:ParsingId')->getSearch($mots[0]);
+        $result = $this->em->getRepository('App:ParsingId')->getSearch($mots, $range, $genre);
 
         return new jsonResponse($result);
     }

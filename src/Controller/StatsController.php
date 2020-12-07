@@ -62,6 +62,16 @@ class StatsController extends AbstractController
      */
     public function product($id, $save =null)
     {
+
+        $results = $this->em->getRepository('App:ParsingId')->getId($id);
+
+        // On verifie si l'utilisateur a encore un compte actif
+         if ( $results[0]['is_active'] == 0 AND $results[0]['is_active'] != NULL) {
+            return $this->render('not_user.html.twig');
+         } 
+
+  
+
         // si il y a un parametre save renseigné alors on l'affiche solution temporaire
         if ($save) {
             // on recuperer le profil save cible pour l'afficher
@@ -76,12 +86,12 @@ class StatsController extends AbstractController
             if ($results) {
                 return $this->render('user_save.html.twig', ['user' => $tabResult]);
             } else {
-                var_dump('no data, its possible this profile are closed or wait');
+                var_dump('Aucunes informations disponibles pour le moment, le profile a besoin d\'être mis à jour.');
                 die;
             }
         }
         
-        $results = $this->em->getRepository('App:ParsingId')->getId($id);
+        
 
         // deserialize DC2Type to array
         foreach ($results as $result) {
@@ -96,7 +106,7 @@ class StatsController extends AbstractController
         if ($results) {
             return $this->render('user.html.twig', ['user' => $tabResult]);
         } else {
-            var_dump('no data, its possible this profile are closed or wait');
+            var_dump('Aucunes informations disponibles pour le moment, le profile a besoin d\'être mis à jour.');
             die;
         }
         //print_r($result);

@@ -54,7 +54,7 @@ class ParsingIdRepository extends ServiceEntityRepository
     {
 
         $sql = "
-                SELECT i.id, data, i.created_at
+                SELECT i.id, data, i.created_at, p.is_active
                 FROM informations as i
                 RIGHT JOIN parsing_id as p
                  ON i.relation_id = p.id
@@ -71,16 +71,23 @@ class ParsingIdRepository extends ServiceEntityRepository
     }
 
 
-    public function getSearch($mots)
+    public function getSearch($mots, $range, $genre)
     {
+        //var_dump($genre);
+        // reste à faire le genre et ajouter un deuxieme parametre pour la ville 
         $sql = "
                 SELECT p.urlid, p.pseudo, p.age, p.avatar, p.city
                 FROM parsing_id as p
-                WHERE p.pseudo LIKE '%".$mots."%'
-             
+                WHERE p.pseudo = :search
+                AND p.city like '%".$mots[1]."%'
+                AND p.age >= :min
+                AND p.age <= :max
+                AND p.sexe IN (:f,:m)
+              
+                LIMIT 100    
                ";
         $users =$this->conn->prepare($sql);
-        $users->execute();
+        $users->execute(array('search'=> $mots[0], 'min' => $range[0], 'max' => $range[1], 'f' => $genre[0], 'm' => $genre[1]) );
 
         $arrayUser = $users->fetchAll();
         return $arrayUser;

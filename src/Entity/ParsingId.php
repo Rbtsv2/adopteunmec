@@ -34,7 +34,7 @@ class ParsingId
     private $pseudo;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $age;
 

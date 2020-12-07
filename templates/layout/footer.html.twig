@@ -71,49 +71,57 @@
     <script>
 
         var range = [18,35]; // range par default 
+        var genre = [1, 0]; // On initialise le tableau de genre on initialise les deux avec => 1 = femme 0 = homme
+        var champ = document.getElementById('search');
         // code concernant la route search à mettre dans un fichier js unique 
         var slider = new Slider("#slider1");
         slider.on("slide", function(slideEvt) {
-            var range = slider.getValue();
+            range = slider.getValue();
+            actionSearch(champ);
         });
        
         $('#femme').click(function(){
             if($(this).prop("checked") == true){
-            var femme = true;
+                genre[0] = 1;
             }
             else if($(this).prop("checked") == false){
-            var femme = false;
+                genre[0] = null;
             }
+            actionSearch(champ);
         });
         $('#homme').click(function(){
             if($(this).prop("checked") == true){
-            var homme = true;
+                genre[1] = 0;
             }
             else if($(this).prop("checked") == false){
-            var homme = false;
+                genre[1] = null;
             }
+            actionSearch(champ);
         });
 
-
-        var genre = [femme, homme];
-
+        /**
+        * Event : au touche clavier
+        */
         $('#search').on('keyup', function(e) {
+            actionSearch(this);
+        });
+
+        function actionSearch(input) {
+            $('.profile').remove();
             var data = [];
             data.push({
-                'search': this.value,
+                'search': input.value,
                 'range' : range,
                 'genre' : genre
             });
 
             jsonString = JSON.stringify({data});
             // il faut declanché la recherche au bout de 4 caracteres 
-            if (this.value.length === 4) {
+            if (input.value.length >= 4) {
+
                 search(jsonString);
             };
-         
-        });
-
-
+        }
 
         function search(jsonString) {
             $.ajax({
@@ -121,17 +129,11 @@
             url: "/api/search",
             data: "data="+jsonString,
             success: function(element) {
-                console.log(element);
-                
-                $('.profile').remove(); // on remove tous les profils
-
                  element.forEach(e => {
-
                         console.log(e.urlid);
-                        $( ".gallery" ).append( '<div class="col-lg-3 col-md-4 col-6 profil"><a href="/product/'+e.urlid+'" class="d-block mb-4 h-100"><img class="img-fluid img-thumbnail" src="'+e.avatar+'" alt="'+e.pseudo+'"><span style="color:black" >'+e.pseudo+'-'+e.age+' ans -'+e.city+'</span>' );
+                        $( ".gallery" ).append( '<div class="col-lg-3 col-md-4 col-6 profile"><a href="/product/'+e.urlid+'" class="d-block mb-4 h-100"><img class="img-fluid img-thumbnail" src="'+e.avatar+'" alt="'+e.pseudo+'"><span style="color:black" >'+e.pseudo+'-'+e.age+' ans -'+e.city+'</span>' );
 
                 }) 
-
             }
         });
         }
