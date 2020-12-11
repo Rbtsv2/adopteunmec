@@ -122,10 +122,13 @@ class AdopteService
     public function filterUrlsInPage($login, $password, $code, $search, $isonline, $output)
     {
         $content = $this->getUrlsInPage($login, $password, $code, $search, $isonline, $output);
+        //var_dump($content);
         $urls = array();
         foreach ($content as $key) {
             if($key->getAttribute('href')) {
                 $href = $key->getAttribute('href');
+
+                var_dump($href);
             }
 
             if (preg_match(self::PROFILE_FILTER, $href)) {
@@ -165,7 +168,7 @@ class AdopteService
 
             if (!empty($data)) {
                $this->saveIdsFromOneProfile($data, $output); 
-               $this->getSecureTime($output);
+               //$this->getSecureTime($output);
             } else {
 
                 // détection kick fraude  
@@ -476,18 +479,18 @@ class AdopteService
         curl_setopt($curl, CURLOPT_TIMEOUT,1000);
 
 
-        //if ($isproxy) { // si isproxy est actif alors
+        if ($isproxy) { // si isproxy est actif alors
 
-            // $output->writeln('<notice>[' . date('Y-m-d H:i:s') . '] [NOTICE]</> <third> PROXY ACTIVE </third>');
+            $output->writeln('<notice>[' . date('Y-m-d H:i:s') . '] [NOTICE]</> <third> PROXY ACTIF </third>');
 
-            // $content = $this->getProxy();
-            //curl_setopt($curl, CURLOPT_HTTPPROXYTUNNEL, true); 
-            // curl_setopt($curl, CURLOPT_PROXY, $content["data"][0]["ip"]);
-            // curl_setopt($curl, CURLOPT_PROXYPORT, $content["data"][0]["port"]);
+            $content = $this->getProxy();
+            curl_setopt($curl, CURLOPT_HTTPPROXYTUNNEL, true); 
+            curl_setopt($curl, CURLOPT_PROXY, $content["data"][0]["ip"]);
+            curl_setopt($curl, CURLOPT_PROXYPORT, $content["data"][0]["port"]);
 
             //curl_setopt($curl, CURLOPT_PROXY, "94.177.232.56:3128");
     
-        //}
+        }
  
 
         curl_exec($curl);
