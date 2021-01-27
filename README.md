@@ -1,10 +1,12 @@
 # ADOPTE UN MEC | TINDER
 
-[![forthebadge](https://s.adopteunmec.com/fr/www/img/_common/logos/aum_256_256.jpg?d2e5c7c1dc5cf98b5e9f9ce208a8f5dc)]() 
-[![forthebadge](https://assets.stickpng.com/images/580b57fcd9996e24bc43c53b.png)]() 
+![alt-text-1](https://s.adopteunmec.com/fr/www/img/_common/logos/aum_256_256.jpg?d2e5c7c1dc5cf98b5e9f9ce208a8f5dc "adopteunmec") ![alt-text-2](https://assets.stickpng.com/images/580b57fcd9996e24bc43c53b.png "tinder")
 
 
-Site web | statistiques | booster de rencontres
+
+<img align="left" src="https://s.adopteunmec.com/fr/www/img/_common/logos/aum_256_256.jpg?d2e5c7c1dc5cf98b5e9f9ce208a8f5dc" alt="Made with Angular" title="Angular" hspace="20"/>
+<img align="left" src="https://assets.stickpng.com/images/580b57fcd9996e24bc43c53b.png " alt="Made with Bootstrap" title="Bootstrap" hspace="20"/>
+
 
 ## Technos
 
