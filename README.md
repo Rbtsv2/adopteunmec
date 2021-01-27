@@ -16,10 +16,10 @@
 
 ## CLI Démarrage
 
-Choissiez votre payload : 
-_Scraping de profils_: Executez la commande ``php bin/console app:parse compte@gmail.com 'passord' 2chiffresducodepostal`` 
-_Scraping d'informations sur profils en base_: Executez la commande ``php bin/console app:parse compte@gmail.com 'passord'``
-_Scraping d'image pour enregistrement en binaire dans la base_: Executez la commande ``php bin/console app:getimages``  
+Choissiez votre payload :  
+_Scraping de profils_: Executez la commande ``php bin/console app:parse compte@gmail.com 'passord' 2chiffresducodepostal``  
+_Scraping d'informations sur profils en base_: Executez la commande ``php bin/console app:parse compte@gmail.com 'passord'``  
+_Scraping d'image pour enregistrement en binaire dans la base_: Executez la commande ``php bin/console app:getimages``   
 
 
 ## Versions
