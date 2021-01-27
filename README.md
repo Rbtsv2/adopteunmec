@@ -1,62 +1,43 @@
-# ADOPTE CLI VERSION 1
+# ADOPTE UN MEC | TINDER
 
-[![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com)  [![forthebadge](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Anonymous_emblem.svg/316px-Anonymous_emblem.svg.png)](http://forthebadge.com)
-
-Adopte CLI est un outils permttant de réaliser des stats des célibataires en France
-
-## Pour commencer
-
-Cet outils realisé sur Symfony forunit 3 commandes
+[![forthebadge](https://s.adopteunmec.com/fr/www/img/_common/logos/aum_256_256.jpg?d2e5c7c1dc5cf98b5e9f9ce208a8f5dc)]() 
+[![forthebadge](https://assets.stickpng.com/images/580b57fcd9996e24bc43c53b.png)]() 
 
 
-### Pré-requis
+Site web | statistiques | booster de rencontres
 
-Ce qu'il est requis pour commencer avec votre projet :
+## Technos
 
-- PhP 7.* 
+- Symfony 5
+- Node Javascript 
 - MYSQL
 
 ### Installation
 
-_Initialiser la base de donnée_: Executez la commande ``php bin/console doctrine:schema:update -f`` 
+``php bin/console doctrine:schema:update -f`` 
 
-Ensuite vous pouvez montrer ce que vous obtenez au final...
+``php bin/console server:run`` 
 
-## Démarrage
-
-_Démarrer le server_: Executez la commande ``php bin/console server:run`` 
+## CLI Démarrage
 
 Choissiez votre payload : 
-_Scraping de profils_: Executez la commande ``php bin/console app:parse`` 
-_Scraping d'informations sur profils en base_: Executez la commande ``php bin/console app:parse``
+_Scraping de profils_: Executez la commande ``php bin/console app:parse compte@gmail.com 'passord' 2chiffresducodepostal`` 
+_Scraping d'informations sur profils en base_: Executez la commande ``php bin/console app:parse compte@gmail.com 'passord'``
 _Scraping d'image pour enregistrement en binaire dans la base_: Executez la commande ``php bin/console app:getimages``  
-
-## Fabriqué avec
-
-* [Symfony](https://symfony.com/) - Framework MVC (Back-end)
-* [Twig](https://twig.symfony.com/) - (Compilateur de template)
 
 
 ## Versions
 
-**Dernière version stable :** 1.0
-- Système anti-fraude 
-- Détection des fraudes
-- Traite les profils inactifs
-- Visites les profils en masse
-- Enregistre les données de profiles
-- Gestion des doublons
-- Conformité ACIDE
+**Fonctionnalité :**
 
-
-## Auteurs
-
-* **Jhon doe** _alias_ [@outout14](https://github.com/outout14)
-
-Lisez la liste des [contributeurs](https://github.com/your/project/contributors) pour voir qui à aidé au projet !
+- Visualisation des profils sur carte de France
+- Visualisation des déplacements par profils 
+- Booster de profils 
+- Statistiques
+- Moteur de recherche
 
 ## License
 
-Ce projet est sous licence ``exemple: WTFTPL`` - voir le fichier [LICENSE.md](LICENSE.md) pour plus d'informations
+Ce projet est sous licence ``WTFTPL`` - voir le fichier [LICENSE.md](LICENSE.md) pour plus d'informations
 
 

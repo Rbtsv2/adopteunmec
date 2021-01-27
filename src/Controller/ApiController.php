@@ -108,5 +108,12 @@ class ApiController extends AbstractController
 
     }
 
+    /**
+     *  @Route("/proxy", name="proxy")
+     */
+    public function proxy() {
+        return new JsonResponse($this->adopteService->getProxy2());
+    }
+
 
 }

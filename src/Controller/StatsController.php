@@ -120,13 +120,6 @@ class StatsController extends AbstractController
     
 
     /**
-     *  @Route("/proxy", name="proxy")
-     */
-    public function proxy() {
-        return  $this->adopteService->getProxy();
-    }
-
-    /**
      * route privée qui active le worker app:parse
      * @Route("/user/worker", name="user.worker")
      */

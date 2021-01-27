@@ -29,12 +29,14 @@ class AdopteService
     const API_URI          = 'https://geo.api.gouv.fr/communes?codeDepartement=';
     const TARGET           = 'https://www.adopteunmec.com/gogole?q=';
     const URI_CONNECTION   = 'https://www.adopteunmec.com//auth/login';
-    const AGENT            = 'Mozilla/5.0';
+    const AGENT_old        = 'Mozilla/5.0';
+    const AGENT            = "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0";
     const COOKIE           = 'cookie.txt';
     const ERROR_CONNECTION = 'Check your connection';
     const PROFILE_FILTER   = "#/profile/(?!me)#i";
     const PROFILE          = "https://www.adopteunmec.com/profile/";
-    const PROXY            = "http://pubproxy.com/api/proxy?country=FR&post=true&format=json";
+    const PROXY            = "http://pubproxy.com/api/proxy?country=br&post=true&format=json&type=http";
+    const PROXY_2          = "https://www.proxyscan.io/api/proxy?last_check=9800&country=br&type=http"; 
 
     private $_version      = '3.0.0';
     private $_postfields   = array();
@@ -127,8 +129,6 @@ class AdopteService
         foreach ($content as $key) {
             if($key->getAttribute('href')) {
                 $href = $key->getAttribute('href');
-
-                var_dump($href);
             }
 
             if (preg_match(self::PROFILE_FILTER, $href)) {
@@ -168,7 +168,7 @@ class AdopteService
 
             if (!empty($data)) {
                $this->saveIdsFromOneProfile($data, $output); 
-               //$this->getSecureTime($output);
+               $this->getSecureTime($output);
             } else {
 
                 // détection kick fraude  
@@ -330,7 +330,7 @@ class AdopteService
     public function exctractAndCompareApi($id)
     {
         $url = self::PROFILE . $id;
-        $content = $this->curl("jeuleberne45@gmail.com", "ezUZAedh54e574", $url);
+        $content = $this->curl("coquinou3132@gmail.com", "Coquinou3132", $url);
         $data = $this->extractApi($content); // on format serializé ? 
         if (!$data) {
             var_dump('the profile has deleted their account');
@@ -449,6 +449,12 @@ class AdopteService
 
     }
 
+    public function getProxy2()
+    {
+        $data = @file_get_contents(self::PROXY_2);
+        $contents = json_decode($data, true);
+        return $contents;
+    }
 
     /**
      * @return bool|string
@@ -479,23 +485,29 @@ class AdopteService
         curl_setopt($curl, CURLOPT_TIMEOUT,1000);
 
 
-        if ($isproxy) { // si isproxy est actif alors
+        //if ($isproxy) { // si isproxy est actif alors
 
-            $output->writeln('<notice>[' . date('Y-m-d H:i:s') . '] [NOTICE]</> <third> PROXY ACTIF </third>');
+        //    $output->writeln('<notice>[' . date('Y-m-d H:i:s') . '] [NOTICE]</> <third> PROXY ACTIF </third>');
 
-            $content = $this->getProxy();
-            curl_setopt($curl, CURLOPT_HTTPPROXYTUNNEL, true); 
-            curl_setopt($curl, CURLOPT_PROXY, $content["data"][0]["ip"]);
-            curl_setopt($curl, CURLOPT_PROXYPORT, $content["data"][0]["port"]);
+        //    $content = $this->getProxy();
+            //curl_setopt ($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_2_0);
+            //curl_setopt ($curl, CURLOPT_VERBOSE, TRUE);
+            //curl_setopt($curl, CURLOPT_HTTPPROXYTUNNEL, 1); 
+            //curl_setopt($curl, CURLOPT_PROXY, $content[0]["Ip"]);
+            //curl_setopt($curl, CURLOPT_PROXYPORT, $content[0]["Port"]);
+            //curl_setopt($curl, CURLOPT_PROXY, $content["data"][0]["ip"]);
+            //curl_setopt($curl, CURLOPT_PROXYPORT, $content["data"][0]["port"]);
 
-            //curl_setopt($curl, CURLOPT_PROXY, "94.177.232.56:3128");
+            //curl_setopt($curl, CURLOPT_PROXY, $content[0]["Ip"].":".$content[0]["Port"]);
     
-        }
+        //}
  
 
         curl_exec($curl);
         curl_setopt($curl, CURLOPT_URL, $url);
         $content = curl_exec($curl);
+
+        //var_dump($content); // false = aucun contenu ...
 
         if(!curl_errno($curl)){
             $info = curl_getinfo($curl);
@@ -514,12 +526,45 @@ class AdopteService
             }
         
         
-        } 
+        } else {
+            throw new \Exception(curl_error($curl));
+        }
         return $content;
     }
 
 
 
+/////////////////////////////////////////////////////////////////////// formulaire d'enregistrement 
+// https://www.adopteunmec.com/register/index
+// Host: www.adopteunmec.com
+// User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0
+// Accept: application/json, text/javascript, */*; q=0.01
+// Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+// Accept-Encoding: gzip, deflate, br
+// Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+// X-Requested-With: XMLHttpRequest
+// Content-Length: 788
+// Origin: https://www.adopteunmec.com
+// Connection: keep-alive
+// Referer: https://www.adopteunmec.com/?utm_source=googleAds&utm_medium=sea_acquisM&utm_content=brand&gclid=EAIaIQobChMIiMKjtLbH7QIVvgUGAB3_YgAQEAAYASAAEgJ92vD_BwE
+// Cookie: utm=utm_source=googleAds&utm_medium=sea_acquisM&utm_content=brand; _ga=GA1.2.1905280953.1607741147; _gid=GA1.2.1790031269.1607741147; _gac_UA-3745091-1=1.1607741161.EAIaIQobChMIiMKjtLbH7QIVvgUGAB3_YgAQEAAYASAAEgJ92vD_BwE; _tls=*.1167742:1167743:1178223..0; _tli=6162188824320097736; _tlc=www.google.com%2F:1607741148:www.adopteunmec.com%2F%3Futm_source%3DgoogleAds%26utm_medium%3Dsea_acquisM%26utm_content%3Dbrand%26gclid%3DEAIaIQobChMIiMKjtLbH7QIVvgUGAB3_YgAQEAAYASAAEgJ92vD_BwE:adopteunmec.com; _tlv=1.1607741147.1607741147.1607741148.1.1.1; _tlp=3944:19393186
+// sex=0&day=02&month=2&year=1997&number=jeandubon@gmail.com&email=&password=Jeandubon231&PreventChromeAutocomplete=&pseudo=Jeandubon&country=FR&region=11&zipcode=75001&city=Paris 1er&confirm_city=1&cgu=1&by_popup=1&nonce=03AGdBq24Uis40yH5IL8_UXMwienN3u2Y9R-wefzgdphywGk9orWULqLk5DpvUgvvgU7P5A-1uRsORlU0DYcswjGVqw7u7Z91rygU5E22OTYNSBc4LnzUhXtCk8liPSS5P7DZx1uCah6IqaHDB36pnGfGG4QJjZDm8Xaoct4LA9Y11bvRjOfYMjF5J4Emur1dudSbrP94ENzkJEwg7prCU_GfZkIuh_QAPNCtSlURgZMyMWDNfM_a7vfgds_nh_hHiDTg9VdM86NrVPpLrqURhtDhtLkNn2PA1fIn86iPZedonDj9BZ-bj74mx_0Q7RPsYr48ZaXCWwEU42wHEenmTT5ZaIfOgr41E9MGu5B2aTovmThlg7MqliHwjKH1r3d0dmpgj1XKcitMQm4-MZZNO5oAREOzXimY-BHyQ33IG5ga38IKOHjsSf9_F6fE5YjL0mE12jhJ2L2v9wNFOm1jSddZIw9g2j7dvuyZAymOVi-96JV0mVyLkIZY&utm_source=googleAds&utm_content=brand&utm_medium=sea_acquisM
+// POST: HTTP/1.1 200 OK
+// Date: Sat, 12 Dec 2020 02:47:02 GMT
+// Content-Type: application/json
+// Transfer-Encoding: chunked
+// Connection: close
+// Vary: Accept-Encoding
+// Expires: Thu, 19 Nov 1981 08:52:00 GMT
+// Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+// Pragma: no-cache
+// Set-Cookie: AUMSESSID21=j25n7dr4dpnt7jb3r4ln69ujgota7psn; expires=Sat, 12-Dec-2020 03:11:01 GMT; Max-Age=1440; path=/; secure; HttpOnly
+// aum_register_ajax=219866502; expires=Sat, 19-Dec-2020 02:47:02 GMT; Max-Age=604800; path=/; httponly
+// confirm_city=1; expires=Tue, 12-Jan-2021 02:47:02 GMT; Max-Age=2678400; path=/
+// Link: <http://json-schema.org/json-ref>; rel="describedby"
+// X-Frame-Options: SAMEORIGIN
+// Strict-Transport-Security: max-age=15552000; includeSubDomains
+// Content-Encoding: gzip
 
 
 }
